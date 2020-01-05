@@ -1,0 +1,100 @@
+﻿{
+  "results": [
+    {
+      "address_components": [
+        {
+          "long_name": "1200",
+          "short_name": "1200",
+          "types": [
+            "street_number"
+          ]
+        },
+        {
+          "long_name": "West Northland Avenue",
+          "short_name": "W Northland Ave",
+          "types": [
+            "route"
+          ]
+        },
+        {
+          "long_name": "Appleton",
+          "short_name": "Appleton",
+          "types": [
+            "locality",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Outagamie County",
+          "short_name": "Outagamie County",
+          "types": [
+            "administrative_area_level_2",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Wisconsin",
+          "short_name": "WI",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "United States",
+          "short_name": "US",
+          "types": [
+            "country",
+            "political"
+          ]
+        },
+        {
+          "long_name": "54914",
+          "short_name": "54914",
+          "types": [
+            "postal_code"
+          ]
+        }
+      ],
+      "formatted_address": "1200 W Northland Ave, Appleton, WI 54914, USA",
+      "geometry": {
+        "location": {
+          "lat": 44.2890061,
+          "lng": -88.423576
+        },
+        "location_type": "ROOFTOP",
+        "viewport": {
+          "northeast": {
+            "lat": 44.2903550802915,
+            "lng": -88.4222270197085
+          },
+          "southwest": {
+            "lat": 44.28765711970851,
+            "lng": -88.42492498029151
+          }
+        }
+      },
+      "place_id": "ChIJFbU6Cem2A4gRMMucPhG4Kl4",
+      "plus_code": {
+        "compound_code": "7HQG+JH Appleton, Wisconsin, United States",
+        "global_code": "86PH7HQG+JH"
+      },
+      "types": [
+        "bakery",
+        "establishment",
+        "finance",
+        "food",
+        "grocery_or_supermarket",
+        "laundry",
+        "liquor_store",
+        "local_government_office",
+        "movie_rental",
+        "point_of_interest",
+        "post_office",
+        "store",
+        "supermarket"
+      ]
+    }
+  ],
+  "status": "OK"
+}

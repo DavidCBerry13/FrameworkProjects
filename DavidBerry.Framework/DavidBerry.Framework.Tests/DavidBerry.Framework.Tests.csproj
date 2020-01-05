@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="dotCover.Output\**" />
+    <EmbeddedResource Remove="dotCover.Output\**" />
+    <None Remove="dotCover.Output\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="dotCover.Output.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.9.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
+    <PackageReference Include="Moq" Version="4.13.1" />
+    <PackageReference Include="xunit" Version="2.4.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="JetBrains.dotCover.DotNetCliTool" Version="2019.2.0.1" />
+  </ItemGroup>  
+  
+  <ItemGroup>
+    <ProjectReference Include="..\DavidBerry.Framework\DavidBerry.Framework.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,91 @@
+﻿{
+  "results": [
+    {
+      "address_components": [
+        {
+          "long_name": "O'Hare International Airport",
+          "short_name": "O'Hare International Airport",
+          "types": [
+            "airport",
+            "establishment",
+            "point_of_interest"
+          ]
+        },
+        {
+          "long_name": "10000",
+          "short_name": "10000",
+          "types": [
+            "street_number"
+          ]
+        },
+        {
+          "long_name": "West O'Hare Avenue",
+          "short_name": "W O'Hare Ave",
+          "types": [
+            "route"
+          ]
+        },
+        {
+          "long_name": "Chicago",
+          "short_name": "Chicago",
+          "types": [
+            "locality",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Illinois",
+          "short_name": "IL",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "United States",
+          "short_name": "US",
+          "types": [
+            "country",
+            "political"
+          ]
+        },
+        {
+          "long_name": "60666",
+          "short_name": "60666",
+          "types": [
+            "postal_code"
+          ]
+        }
+      ],
+      "formatted_address": "O'Hare International Airport (ORD), 10000 W O'Hare Ave, Chicago, IL 60666, USA",
+      "geometry": {
+        "location": {
+          "lat": 41.9741625,
+          "lng": -87.9073214
+        },
+        "location_type": "ROOFTOP",
+        "viewport": {
+          "northeast": {
+            "lat": 41.9755114802915,
+            "lng": -87.90597241970849
+          },
+          "southwest": {
+            "lat": 41.9728135197085,
+            "lng": -87.90867038029151
+          }
+        }
+      },
+      "place_id": "ChIJ82J3aie0D4gRS61ZAgdHF1E",
+      "plus_code": {
+        "compound_code": "X3FV+M3 Chicago, Illinois, United States",
+        "global_code": "86HJX3FV+M3"
+      },
+      "types": [
+        "airport",
+        "establishment",
+        "point_of_interest"
+      ]
+    }
+  ],
+  "status": "OK"
+}

@@ -1,0 +1,81 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="dotCover.Output\**" />
+    <EmbeddedResource Remove="dotCover.Output\**" />
+    <None Remove="dotCover.Output\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="dotCover.Output.html" />
+    <None Remove="Geocoding\Google\GoogleResponse.Airport-OHare.json" />
+    <None Remove="Geocoding\Google\GoogleResponse.BillingDisabled.json" />
+    <None Remove="Geocoding\Google\GoogleResponse.City-BoiseId.json" />
+    <None Remove="Geocoding\Google\GoogleResponse.GasStation-KwikTrip.json" />
+    <None Remove="Geocoding\Google\GoogleResponse.GoogleHeadquarters.json" />
+    <None Remove="Geocoding\Google\GoogleResponse.MultipleCity-Springfield.json" />
+    <None Remove="Geocoding\Google\GoogleResponse.Museum-FieldMuseum.json" />
+    <None Remove="Geocoding\Google\GoogleResponse.Park-ErbParkAppleton.json" />
+    <None Remove="Geocoding\Google\GoogleResponse.UsZipCode-83702.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Geocoding\Google\GoogleResponse.Airport-OHare.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Geocoding\Google\GoogleResponse.BillingDisabled.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Geocoding\Google\GoogleResponse.City-BoiseId.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Geocoding\Google\GoogleResponse.GasStation-KwikTrip.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Geocoding\Google\GoogleResponse.GoogleHeadquarters.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Geocoding\Google\GoogleResponse.Museum-FieldMuseum.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Geocoding\Google\GoogleResponse.Park-ErbParkAppleton.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Geocoding\Google\GoogleResponse.UsZipCode-83702.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.9.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
+    <PackageReference Include="Moq" Version="4.13.1" />
+    <PackageReference Include="UnitsNet" Version="4.42.0" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="JetBrains.dotCover.DotNetCliTool" Version="2019.2.0.1" />
+  </ItemGroup>
+    
+  <ItemGroup>
+    <ProjectReference Include="..\DavidBerry.Framework.Spatial\DavidBerry.Framework.Spatial.csproj" />
+  </ItemGroup>
+    
+  <ItemGroup>
+    <EmbeddedResource Include="Geocoding\Google\GoogleResponse.MultipleCity-Springfield.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

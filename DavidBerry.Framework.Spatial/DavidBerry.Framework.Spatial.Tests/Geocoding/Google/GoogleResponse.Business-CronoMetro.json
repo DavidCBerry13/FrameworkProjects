@@ -1,0 +1,99 @@
+﻿{
+  "results": [
+    {
+      "address_components": [
+        {
+          "long_name": "338",
+          "short_name": "338",
+          "types": [
+            "street_number"
+          ]
+        },
+        {
+          "long_name": "West Lakeside Street",
+          "short_name": "W Lakeside St",
+          "types": [
+            "route"
+          ]
+        },
+        {
+          "long_name": "Bay Creek",
+          "short_name": "Bay Creek",
+          "types": [
+            "neighborhood",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Madison",
+          "short_name": "Madison",
+          "types": [
+            "locality",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Dane County",
+          "short_name": "Dane County",
+          "types": [
+            "administrative_area_level_2",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Wisconsin",
+          "short_name": "WI",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "United States",
+          "short_name": "US",
+          "types": [
+            "country",
+            "political"
+          ]
+        },
+        {
+          "long_name": "53715",
+          "short_name": "53715",
+          "types": [
+            "postal_code"
+          ]
+        }
+      ],
+      "formatted_address": "338 W Lakeside St, Madison, WI 53715, USA",
+      "geometry": {
+        "location": {
+          "lat": 43.0562304,
+          "lng": -89.3884829
+        },
+        "location_type": "ROOFTOP",
+        "viewport": {
+          "northeast": {
+            "lat": 43.05757938029149,
+            "lng": -89.38713391970849
+          },
+          "southwest": {
+            "lat": 43.05488141970849,
+            "lng": -89.3898318802915
+          }
+        }
+      },
+      "place_id": "ChIJo-HYAHhTBogRUHjuHhPK2LE",
+      "plus_code": {
+        "compound_code": "3J46+FJ Madison, Wisconsin, United States",
+        "global_code": "86MG3J46+FJ"
+      },
+      "types": [
+        "bicycle_store",
+        "establishment",
+        "point_of_interest",
+        "store"
+      ]
+    }
+  ],
+  "status": "OK"
+}

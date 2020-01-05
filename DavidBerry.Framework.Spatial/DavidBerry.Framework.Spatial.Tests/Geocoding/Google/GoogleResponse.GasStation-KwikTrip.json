@@ -1,0 +1,102 @@
+﻿{
+  "results": [
+    {
+      "address_components": [
+        {
+          "long_name": "2400",
+          "short_name": "2400",
+          "types": [
+            "street_number"
+          ]
+        },
+        {
+          "long_name": "South Washburn Street",
+          "short_name": "S Washburn St",
+          "types": [
+            "route"
+          ]
+        },
+        {
+          "long_name": "Oshkosh",
+          "short_name": "Oshkosh",
+          "types": [
+            "locality",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Winnebago County",
+          "short_name": "Winnebago County",
+          "types": [
+            "administrative_area_level_2",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Wisconsin",
+          "short_name": "WI",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "United States",
+          "short_name": "US",
+          "types": [
+            "country",
+            "political"
+          ]
+        },
+        {
+          "long_name": "54904",
+          "short_name": "54904",
+          "types": [
+            "postal_code"
+          ]
+        },
+        {
+          "long_name": "8957",
+          "short_name": "8957",
+          "types": [
+            "postal_code_suffix"
+          ]
+        }
+      ],
+      "formatted_address": "2400 S Washburn St, Oshkosh, WI 54904, USA",
+      "geometry": {
+        "location": {
+          "lat": 43.9893922,
+          "lng": -88.5856922
+        },
+        "location_type": "ROOFTOP",
+        "viewport": {
+          "northeast": {
+            "lat": 43.99074118029149,
+            "lng": -88.58434321970849
+          },
+          "southwest": {
+            "lat": 43.98804321970849,
+            "lng": -88.58704118029151
+          }
+        }
+      },
+      "place_id": "ChIJO_WV2efuA4gRo_4wRwhrU5I",
+      "plus_code": {
+        "compound_code": "XCQ7+QP Oshkosh, Wisconsin, United States",
+        "global_code": "86MHXCQ7+QP"
+      },
+      "types": [
+        "atm",
+        "convenience_store",
+        "establishment",
+        "finance",
+        "food",
+        "gas_station",
+        "point_of_interest",
+        "store"
+      ]
+    }
+  ],
+  "status": "OK"
+}

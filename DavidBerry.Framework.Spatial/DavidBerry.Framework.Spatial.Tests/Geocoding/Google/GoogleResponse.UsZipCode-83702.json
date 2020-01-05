@@ -1,0 +1,80 @@
+﻿{
+  "results": [
+    {
+      "address_components": [
+        {
+          "long_name": "83702",
+          "short_name": "83702",
+          "types": [
+            "postal_code"
+          ]
+        },
+        {
+          "long_name": "Boise",
+          "short_name": "Boise",
+          "types": [
+            "locality",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Ada County",
+          "short_name": "Ada County",
+          "types": [
+            "administrative_area_level_2",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Idaho",
+          "short_name": "ID",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "United States",
+          "short_name": "US",
+          "types": [
+            "country",
+            "political"
+          ]
+        }
+      ],
+      "formatted_address": "Boise, ID 83702, USA",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": 43.7000229,
+            "lng": -116.0941219
+          },
+          "southwest": {
+            "lat": 43.6033878,
+            "lng": -116.2351669
+          }
+        },
+        "location": {
+          "lat": 43.6624385,
+          "lng": -116.1630431
+        },
+        "location_type": "APPROXIMATE",
+        "viewport": {
+          "northeast": {
+            "lat": 43.7000229,
+            "lng": -116.0941219
+          },
+          "southwest": {
+            "lat": 43.6033878,
+            "lng": -116.2351669
+          }
+        }
+      },
+      "place_id": "ChIJ9bbM7fv7rlQRiGOGv5F44kM",
+      "types": [
+        "postal_code"
+      ]
+    }
+  ],
+  "status": "OK"
+}

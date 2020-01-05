@@ -1,0 +1,228 @@
+﻿{
+  "results": [
+    {
+      "address_components": [
+        {
+          "long_name": "Springfield",
+          "short_name": "Springfield",
+          "types": [
+            "locality",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Springfield Township",
+          "short_name": "Springfield Township",
+          "types": [
+            "administrative_area_level_3",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Greene County",
+          "short_name": "Greene County",
+          "types": [
+            "administrative_area_level_2",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Missouri",
+          "short_name": "MO",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "United States",
+          "short_name": "US",
+          "types": [
+            "country",
+            "political"
+          ]
+        }
+      ],
+      "formatted_address": "Springfield, MO, USA",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": 37.2708071,
+            "lng": -93.1786431
+          },
+          "southwest": {
+            "lat": 37.0874019,
+            "lng": -93.414006
+          }
+        },
+        "location": {
+          "lat": 37.2089572,
+          "lng": -93.29229889999999
+        },
+        "location_type": "APPROXIMATE",
+        "viewport": {
+          "northeast": {
+            "lat": 37.2708071,
+            "lng": -93.1786431
+          },
+          "southwest": {
+            "lat": 37.0874019,
+            "lng": -93.414006
+          }
+        }
+      },
+      "place_id": "ChIJP5jIRfdiz4cRoA1pHrNs_Ws",
+      "types": [
+        "locality",
+        "political"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "Springfield",
+          "short_name": "Springfield",
+          "types": [
+            "locality",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Sangamon County",
+          "short_name": "Sangamon County",
+          "types": [
+            "administrative_area_level_2",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Illinois",
+          "short_name": "IL",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "United States",
+          "short_name": "US",
+          "types": [
+            "country",
+            "political"
+          ]
+        }
+      ],
+      "formatted_address": "Springfield, IL, USA",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": 39.874049,
+            "lng": -89.5684858
+          },
+          "southwest": {
+            "lat": 39.6536259,
+            "lng": -89.7731769
+          }
+        },
+        "location": {
+          "lat": 39.78172130000001,
+          "lng": -89.6501481
+        },
+        "location_type": "APPROXIMATE",
+        "viewport": {
+          "northeast": {
+            "lat": 39.874049,
+            "lng": -89.5684858
+          },
+          "southwest": {
+            "lat": 39.6536259,
+            "lng": -89.7731769
+          }
+        }
+      },
+      "place_id": "ChIJd9HbJB05dYgRIm2ozO6CLOc",
+      "types": [
+        "locality",
+        "political"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "Springfield",
+          "short_name": "Springfield",
+          "types": [
+            "locality",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Springfield Township",
+          "short_name": "Springfield Township",
+          "types": [
+            "administrative_area_level_3",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Clark County",
+          "short_name": "Clark County",
+          "types": [
+            "administrative_area_level_2",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Ohio",
+          "short_name": "OH",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "United States",
+          "short_name": "US",
+          "types": [
+            "country",
+            "political"
+          ]
+        }
+      ],
+      "formatted_address": "Springfield, OH, USA",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": 39.982857,
+            "lng": -83.703424
+          },
+          "southwest": {
+            "lat": 39.8878549,
+            "lng": -83.8696619
+          }
+        },
+        "location": {
+          "lat": 39.9242266,
+          "lng": -83.8088171
+        },
+        "location_type": "APPROXIMATE",
+        "viewport": {
+          "northeast": {
+            "lat": 39.982857,
+            "lng": -83.703424
+          },
+          "southwest": {
+            "lat": 39.8878549,
+            "lng": -83.8696619
+          }
+        }
+      },
+      "place_id": "ChIJCXyCilhaP4gRu6-BWBcMdD4",
+      "types": [
+        "locality",
+        "political"
+      ]
+    }
+  ],
+  "status": "OK"
+}

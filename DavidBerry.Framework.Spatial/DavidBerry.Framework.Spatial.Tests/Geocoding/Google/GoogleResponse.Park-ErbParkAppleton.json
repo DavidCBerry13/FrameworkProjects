@@ -1,0 +1,101 @@
+﻿{
+  "results": [
+    {
+      "address_components": [
+        {
+          "long_name": "Erb Park",
+          "short_name": "Erb Park",
+          "types": [
+            "establishment",
+            "park",
+            "point_of_interest",
+            "tourist_attraction"
+          ]
+        },
+        {
+          "long_name": "1800",
+          "short_name": "1800",
+          "types": [
+            "street_number"
+          ]
+        },
+        {
+          "long_name": "North Morrison Street",
+          "short_name": "N Morrison St",
+          "types": [
+            "route"
+          ]
+        },
+        {
+          "long_name": "Appleton",
+          "short_name": "Appleton",
+          "types": [
+            "locality",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Outagamie County",
+          "short_name": "Outagamie County",
+          "types": [
+            "administrative_area_level_2",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Wisconsin",
+          "short_name": "WI",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "United States",
+          "short_name": "US",
+          "types": [
+            "country",
+            "political"
+          ]
+        },
+        {
+          "long_name": "54911",
+          "short_name": "54911",
+          "types": [
+            "postal_code"
+          ]
+        }
+      ],
+      "formatted_address": "Erb Park, 1800 N Morrison St, Appleton, WI 54911, USA",
+      "geometry": {
+        "location": {
+          "lat": 44.2782157,
+          "lng": -88.40281659999999
+        },
+        "location_type": "ROOFTOP",
+        "viewport": {
+          "northeast": {
+            "lat": 44.27956468029151,
+            "lng": -88.4014676197085
+          },
+          "southwest": {
+            "lat": 44.27686671970851,
+            "lng": -88.4041655802915
+          }
+        }
+      },
+      "place_id": "ChIJsVg0wdS2A4gRkykALW1FUpo",
+      "plus_code": {
+        "compound_code": "7HHW+7V Appleton, Wisconsin, United States",
+        "global_code": "86PH7HHW+7V"
+      },
+      "types": [
+        "establishment",
+        "park",
+        "point_of_interest",
+        "tourist_attraction"
+      ]
+    }
+  ],
+  "status": "OK"
+}
