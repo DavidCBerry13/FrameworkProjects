@@ -1,7 +1,7 @@
 using System;
 
 
-namespace DavidBerry.Framework.ResultType
+namespace DavidBerry.Framework.Functional
 {
     public class Error
     {

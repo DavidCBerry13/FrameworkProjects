@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DavidBerry.Framework.ResultType
+namespace DavidBerry.Framework.Functional
 {
     public sealed class NoError : Error
     {

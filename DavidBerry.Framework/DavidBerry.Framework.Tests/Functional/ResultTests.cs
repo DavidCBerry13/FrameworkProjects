@@ -1,11 +1,11 @@
-﻿using DavidBerry.Framework.ResultType;
+﻿using DavidBerry.Framework.Functional;
 using FluentAssertions;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
-namespace DavidBerry.Framework.Tests.ResultType
+namespace DavidBerry.Framework.Tests.Functional
 {
     public class ResultTests
     {
@@ -53,7 +53,7 @@ namespace DavidBerry.Framework.Tests.ResultType
         public void GenericResultSuccess_UsingPrimitive_IsSuccessTrue_WithNoErrorObjectAsError()
         {
             var returnValue = 32;
-            var result = Result.Success<int>(returnValue);
+            var result = Result.Success(returnValue);
 
             result.IsSuccess.Should().BeTrue();
             result.Value.Should().Be(32);
@@ -65,7 +65,7 @@ namespace DavidBerry.Framework.Tests.ResultType
         public void GenericResultSuccess_IsSuccessTrue_WithNoErrorObjectAsError()
         {
 
-            var result = Result.Success<SampleEmployee>(new SampleEmployee("John", "Smith", "Developer"));
+            var result = Result.Success(new SampleEmployee("John", "Smith", "Developer"));
 
             result.IsSuccess.Should().BeTrue();
             result.Value.Should().BeOfType<SampleEmployee>();
@@ -90,7 +90,7 @@ namespace DavidBerry.Framework.Tests.ResultType
             var errorMessage = "Something went wrong";
             var result = Result.Failure<int>(errorMessage);
 
-            result.Value.Should().Be(default(int));
+            result.Value.Should().Be(default);
         }
 
 
@@ -118,16 +118,16 @@ namespace DavidBerry.Framework.Tests.ResultType
 
         class SampleEmployee
         {
-            public SampleEmployee(String firstName, String lastName, String title)
+            public SampleEmployee(string firstName, string lastName, string title)
             {
                 FirstName = firstName;
                 LastName = lastName;
                 Title = title;
             }
 
-            public String FirstName { get; set; }
-            public String LastName { get; set; }
-            public String Title { get; set; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+            public string Title { get; set; }
         }
 
 

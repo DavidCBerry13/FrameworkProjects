@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DavidBerry.Framework.ResultType
+namespace DavidBerry.Framework.Functional
 {
     /// <summary>
     /// Represents the result of an operation that does not need to return data

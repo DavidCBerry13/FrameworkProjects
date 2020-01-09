@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using Microsoft.AspNetCore.Mvc.Filters;
-using DavidBerry.Framework.ResultType;
 using DavidBerry.Framework.Exceptions;
 using DavidBerry.Framework.ApiUtil.Models;
+using DavidBerry.Framework.Functional;
 
 namespace DavidBerry.Framework.ApiUtil.Controllers
 {

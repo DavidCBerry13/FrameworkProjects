@@ -1,4 +1,4 @@
-﻿using DavidBerry.Framework.ResultType;
+﻿using DavidBerry.Framework.Functional;
 using DavidBerry.Framework.Spatial.Geocoding;
 using Newtonsoft.Json;
 using RestSharp;
