@@ -19,8 +19,8 @@ namespace DavidBerry.Framework.Functional
     /// to handle different errors as needed.
     /// </para>
     /// <para>
-    /// Result objects cannot be instantiated directly.  Insted use the static factory
-    /// methods of Success() or Failure() as appropriate.  
+    /// Result objects cannot be instantiated directly.  Instead use the static factory
+    /// methods of Success() or Failure() as appropriate.
     /// </para>
     /// </remarks>
     public class Result
@@ -42,7 +42,7 @@ namespace DavidBerry.Framework.Functional
         /// Result objects are only created by their static factory methods
         /// </summary>
         /// <param name="success">A bool indicating the success of failure of the call</param>
-        /// <param name="error">An Error object representing an error that occured.  Should be null for successful operations</param>
+        /// <param name="error">An Error object representing an error that occurred.  Should be null for successful operations</param>
         protected Result(bool success, Error error)
         {
             IsSuccess = success;
@@ -63,7 +63,7 @@ namespace DavidBerry.Framework.Functional
         /// <summary>
         /// Creates a successful result object that returns an object of type TValue
         /// </summary>
-        /// <typeparam name="TValue">The type of the return data wrapped by thei Result object</typeparam>
+        /// <typeparam name="TValue">The type of the return data wrapped by the Result object</typeparam>
         /// <param name="value">A TValue object of the product of the operation</param>
         /// <returns>A Result object where IsSuccess is true wrapping the provided TValue object</returns>
         public static Result<TValue> Success<TValue>(TValue value)
@@ -75,7 +75,7 @@ namespace DavidBerry.Framework.Functional
         /// <summary>
         /// Creates a result object representing a failure with a message indicating what went wrong
         /// </summary>
-        /// <param name="errorMessage">A string describng the error.  This String will be encapulated in an Error object within the Result object</param>
+        /// <param name="errorMessage">A string describing the error.  This String will be encapsulated in an Error object within the Result object</param>
         /// <returns></returns>
         public static Result Failure(string errorMessage)
         {
