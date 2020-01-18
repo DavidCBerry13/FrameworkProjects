@@ -110,7 +110,7 @@ namespace DavidBerry.Framework.ApiUtil.Controllers
         }
 
 
-        protected internal ActionResult MapErrorResult<TEntity, TModel>(Result result)
+        protected internal virtual ActionResult MapErrorResult<TEntity, TModel>(Result result)
         {
             switch (result.Error)
             {
@@ -128,7 +128,7 @@ namespace DavidBerry.Framework.ApiUtil.Controllers
         }
 
 
-        protected internal ActionResult MapErrorResult(Result result)
+        protected internal virtual ActionResult MapErrorResult(Result result)
         {
             switch (result.Error)
             {
