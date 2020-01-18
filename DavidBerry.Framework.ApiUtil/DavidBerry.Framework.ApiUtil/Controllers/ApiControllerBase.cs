@@ -110,6 +110,20 @@ namespace DavidBerry.Framework.ApiUtil.Controllers
         }
 
 
+        protected internal virtual ActionResult HandleErrorResult(Result result)
+        {
+            LogErrorResult(result);
+            return MapErrorResult(result);
+        }
+
+
+
+        protected internal virtual void LogErrorResult(Result result)
+        {
+            _logger.LogWarning(result.Error.Message);
+        }
+
+
         protected internal virtual ActionResult MapErrorResult<TEntity, TModel>(Result result)
         {
             switch (result.Error)
