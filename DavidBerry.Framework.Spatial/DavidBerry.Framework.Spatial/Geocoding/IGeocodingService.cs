@@ -11,7 +11,7 @@ namespace DavidBerry.Framework.Spatial.Geocoding
 
 
 
-        Result<List<GeocodingResult>> GeocodeAddress(string address);
+        Task<Result<List<GeocodingResult>>> GeocodeAddress(string address);
 
 
 

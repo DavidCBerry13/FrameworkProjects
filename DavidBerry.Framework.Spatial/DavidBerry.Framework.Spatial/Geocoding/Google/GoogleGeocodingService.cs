@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DavidBerry.Framework.Spatial.Geocoding.Google
 {
@@ -20,14 +21,14 @@ namespace DavidBerry.Framework.Spatial.Geocoding.Google
 
         }
 
-        public GoogleGeocodingService(string apiKey, IRestClient restClient)
+        public GoogleGeocodingService(string apiKey, RestClient restClient)
         {
             _apiKey = apiKey;
             _restClient = restClient;
         }
 
 
-        private readonly IRestClient _restClient;
+        private readonly RestClient _restClient;
         private readonly string _apiKey;
 
         private readonly static Dictionary<string, LocationType> LocationTypeMap = new Dictionary<string, LocationType>()
@@ -58,13 +59,13 @@ namespace DavidBerry.Framework.Spatial.Geocoding.Google
         };
 
 
-        public Result<List<GeocodingResult>> GeocodeAddress(string address)
+        public async Task<Result<List<GeocodingResult>>> GeocodeAddress(string address)
         {
-            var request = new RestRequest("maps/api/geocode/json", Method.GET);
-            request.AddParameter("key", _apiKey);
-            request.AddParameter("query", address);
+            var request = new RestRequest("maps/api/geocode/json")
+                .AddQueryParameter("key", _apiKey)
+                .AddQueryParameter("query", address);
 
-            IRestResponse response = _restClient.Execute(request);
+            var response = await _restClient.ExecuteGetAsync(request);
             if (response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK)
             {
                 var googleResponse = JsonConvert.DeserializeObject<GoogleGeocodingResponse>(response.Content);

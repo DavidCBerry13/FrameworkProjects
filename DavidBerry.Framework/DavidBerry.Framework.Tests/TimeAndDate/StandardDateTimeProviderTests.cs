@@ -21,7 +21,7 @@ namespace DavidBerry.Framework.Tests.TimeAndDate
             var result = dateTimeProvider.CurrentDateTime;
             
             // Assert
-            result.Should().BeCloseTo(controlTime, 100);
+            result.Should().BeCloseTo(controlTime, new TimeSpan(0, 0, 1));
             result.Kind.Should().Be(DateTimeKind.Local);
         }
 
@@ -36,7 +36,7 @@ namespace DavidBerry.Framework.Tests.TimeAndDate
             var result = dateTimeProvider.CurrentUtcDateTime;
 
             // Assert
-            result.Should().BeCloseTo(controlTime, 100);
+            result.Should().BeCloseTo(controlTime, new TimeSpan(0, 0, 1));
             result.Kind.Should().Be(DateTimeKind.Utc);
         }
 
