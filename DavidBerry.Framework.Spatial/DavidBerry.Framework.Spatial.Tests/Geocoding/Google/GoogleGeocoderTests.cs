@@ -11,8 +11,6 @@ using Newtonsoft.Json;
 using System.Linq;
 using RestSharp;
 using Moq;
-using System.Threading.Tasks;
-using RichardSzalay.MockHttp;
 
 namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
 {
@@ -63,37 +61,39 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
 
 
         [Fact]
-        public async Task VerifyFormattedLocationStringIsMappedToGeocodingResponseObject()
+        public void VerifyFormattedLocationStringIsMappedToGeocodingResponseObject()
         {
-            // Arrange
             String json = Assembly.GetExecutingAssembly().ReadEmbeddedResourceTextFile("Geocoding.Google.GoogleResponse.GoogleHeadquarters.json");
-            var mockHttp = new MockHttpMessageHandler();
-            // Setup a respond for the user api (including a wildcard in the URL)
-            mockHttp.When("https://maps.googleapis.com/maps/api/*")
-                    .Respond("application/json", json); // Respond with JSON
-            var restClient = new RestClient(new RestClientOptions { BaseUrl = new Uri("https://maps.googleapis.com/"), ConfigureMessageHandler = _ => mockHttp });
+            Mock<IRestResponse> restResponse = new Mock<IRestResponse>();
+            restResponse.Setup(r => r.ResponseStatus).Returns(ResponseStatus.Completed);
+            restResponse.Setup(r => r.StatusCode).Returns(System.Net.HttpStatusCode.OK);
+            restResponse.Setup(r => r.Content).Returns(json);
 
-            // Act
-            GoogleGeocodingService service = new GoogleGeocodingService("test", restClient);
-            var result = await service.GeocodeAddress(It.IsAny<string>());
+            Mock<IRestClient> mockRestClient = new Mock<IRestClient>();
+            mockRestClient.Setup(c => c.Execute(It.IsAny<RestRequest>()))
+                .Returns(restResponse.Object);
+
+            GoogleGeocodingService service = new GoogleGeocodingService("test", mockRestClient.Object);
+            var result = service.GeocodeAddress(It.IsAny<string>());
 
             result.Value[0].FormattedAddress.Should().Be("1600 Amphitheatre Parkway, Mountain View, CA 94043, USA");
         }
 
         [Fact]
-        public async Task VerifyLocationLatitudeLongitudeMappedCorrectlyInReturnObject()
+        public void VerifyLocationLatitudeLongitudeMappedCorrectlyInReturnObject()
         {
-            // Arrange
             String json = Assembly.GetExecutingAssembly().ReadEmbeddedResourceTextFile("Geocoding.Google.GoogleResponse.GoogleHeadquarters.json");
-            var mockHttp = new MockHttpMessageHandler();
-            // Setup a respond for the user api (including a wildcard in the URL)
-            mockHttp.When("https://maps.googleapis.com/maps/api/*")
-                    .Respond("application/json", json); // Respond with JSON
-            var restClient = new RestClient(new RestClientOptions { BaseUrl = new Uri("https://maps.googleapis.com/"), ConfigureMessageHandler = _ => mockHttp });
+            Mock<IRestResponse> restResponse = new Mock<IRestResponse>();
+            restResponse.Setup(r => r.ResponseStatus).Returns(ResponseStatus.Completed);
+            restResponse.Setup(r => r.StatusCode).Returns(System.Net.HttpStatusCode.OK);
+            restResponse.Setup(r => r.Content).Returns(json);
 
-            // Act
-            GoogleGeocodingService service = new GoogleGeocodingService("test", restClient);
-            var result = await service.GeocodeAddress(It.IsAny<string>());
+            Mock<IRestClient> mockRestClient = new Mock<IRestClient>();
+            mockRestClient.Setup(c => c.Execute(It.IsAny<RestRequest>()))
+                .Returns(restResponse.Object);
+
+            GoogleGeocodingService service = new GoogleGeocodingService("test", mockRestClient.Object);
+            var result = service.GeocodeAddress(It.IsAny<string>());
 
             result.Value[0].Location.Latitude.Value.Should().BeApproximately(37.422476, 0.00001);
             result.Value[0].Location.Longitude.Value.Should().BeApproximately(-122.0842499, 0.00001);
@@ -103,19 +103,20 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
 
 
         [Fact]
-        public async Task VerifyFullCallResponseWhenGoogleReturnsSingleAddress()
+        public void VerifyFullCallResponseWhenGoogleReturnsSingleAddress()
         {
-            // Arrange
             String json = Assembly.GetExecutingAssembly().ReadEmbeddedResourceTextFile("Geocoding.Google.GoogleResponse.GoogleHeadquarters.json");
-            var mockHttp = new MockHttpMessageHandler();
-            // Setup a respond for the user api (including a wildcard in the URL)
-            mockHttp.When("https://maps.googleapis.com/maps/api/*")
-                    .Respond("application/json", json); // Respond with JSON
-            var restClient = new RestClient(new RestClientOptions { BaseUrl = new Uri("https://maps.googleapis.com/"), ConfigureMessageHandler = _ => mockHttp });
+            Mock<IRestResponse> restResponse = new Mock<IRestResponse>();
+            restResponse.Setup(r => r.ResponseStatus).Returns(ResponseStatus.Completed);
+            restResponse.Setup(r => r.StatusCode).Returns(System.Net.HttpStatusCode.OK);
+            restResponse.Setup(r => r.Content).Returns(json);
 
-            // Act
-            GoogleGeocodingService service = new GoogleGeocodingService("test", restClient);
-            var result = await service.GeocodeAddress(It.IsAny<string>());
+            Mock<IRestClient> mockRestClient = new Mock<IRestClient>();
+            mockRestClient.Setup(c => c.Execute(It.IsAny<RestRequest>()))
+                .Returns(restResponse.Object);
+
+            GoogleGeocodingService service = new GoogleGeocodingService("test", mockRestClient.Object);
+            var result = service.GeocodeAddress(It.IsAny<string>());
 
             result.IsSuccess.Should().BeTrue();
             result.Value.Should().NotBeNull();
@@ -128,19 +129,20 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
 
 
         [Fact]
-        public async Task VerifyFailureResultReturnedWhenGoogleReturnsError()
+        public void VerifyFailureResultReturnedWhenGoogleReturnsError()
         {
-            // Arrange
             String json = Assembly.GetExecutingAssembly().ReadEmbeddedResourceTextFile("Geocoding.Google.GoogleResponse.BillingDisabled.json");
-            var mockHttp = new MockHttpMessageHandler();
-            // Setup a respond for the user api (including a wildcard in the URL)
-            mockHttp.When("https://maps.googleapis.com/maps/api/*")
-                    .Respond("application/json", json); // Respond with JSON
-            var restClient = new RestClient(new RestClientOptions { BaseUrl = new Uri("https://maps.googleapis.com/"), ConfigureMessageHandler = _ => mockHttp });
+            Mock<IRestResponse> restResponse = new Mock<IRestResponse>();
+            restResponse.Setup(r => r.ResponseStatus).Returns(ResponseStatus.Completed);
+            restResponse.Setup(r => r.StatusCode).Returns(System.Net.HttpStatusCode.OK);
+            restResponse.Setup(r => r.Content).Returns(json);
 
-            // Act
-            GoogleGeocodingService service = new GoogleGeocodingService("test", restClient);
-            var result = await service.GeocodeAddress(It.IsAny<string>());
+            Mock<IRestClient> mockRestClient = new Mock<IRestClient>();
+            mockRestClient.Setup(c => c.Execute(It.IsAny<RestRequest>()))
+                .Returns(restResponse.Object);
+
+            GoogleGeocodingService service = new GoogleGeocodingService("test", mockRestClient.Object);
+            var result = service.GeocodeAddress(It.IsAny<string>());
 
             result.IsSuccess.Should().BeFalse();
             result.Error.Message.Should().Be("Call to Google geocoding service failed");
@@ -149,19 +151,20 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
 
 
         [Fact]
-        public async Task VerifySingleCitySearchDecodesCorrectly()
+        public void VerifySingleCitySearchDecodesCorrectly()
         {
-            // Assert
             String json = Assembly.GetExecutingAssembly().ReadEmbeddedResourceTextFile("Geocoding.Google.GoogleResponse.City-BoiseId.json");
-            var mockHttp = new MockHttpMessageHandler();
-            // Setup a respond for the user api (including a wildcard in the URL)
-            mockHttp.When("https://maps.googleapis.com/maps/api/*")
-                    .Respond("application/json", json); // Respond with JSON
-            var restClient = new RestClient(new RestClientOptions { BaseUrl = new Uri("https://maps.googleapis.com/"), ConfigureMessageHandler = _ => mockHttp });
+            Mock<IRestResponse> restResponse = new Mock<IRestResponse>();
+            restResponse.Setup(r => r.ResponseStatus).Returns(ResponseStatus.Completed);
+            restResponse.Setup(r => r.StatusCode).Returns(System.Net.HttpStatusCode.OK);
+            restResponse.Setup(r => r.Content).Returns(json);
 
-            // Act
-            GoogleGeocodingService service = new GoogleGeocodingService("test", restClient);
-            var result = await service.GeocodeAddress(It.IsAny<string>());
+            Mock<IRestClient> mockRestClient = new Mock<IRestClient>();
+            mockRestClient.Setup(c => c.Execute(It.IsAny<RestRequest>()))
+                .Returns(restResponse.Object);
+
+            GoogleGeocodingService service = new GoogleGeocodingService("test", mockRestClient.Object);
+            var result = service.GeocodeAddress(It.IsAny<string>());
 
             result.IsSuccess.Should().BeTrue();
             result.Value.Should().NotBeNull();
@@ -182,19 +185,20 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
 
 
         [Fact]
-        public async Task VerifyCitySearchWithMultipleResultsDecodesCorrectly()
+        public void VerifyCitySearchWithMultipleResultsDecodesCorrectly()
         {
-            // Assert
             String json = Assembly.GetExecutingAssembly().ReadEmbeddedResourceTextFile("Geocoding.Google.GoogleResponse.MultipleCity-Springfield.json");
-            var mockHttp = new MockHttpMessageHandler();
-            // Setup a respond for the user api (including a wildcard in the URL)
-            mockHttp.When("https://maps.googleapis.com/maps/api/*")
-                    .Respond("application/json", json); // Respond with JSON
-            var restClient = new RestClient(new RestClientOptions { BaseUrl = new Uri("https://maps.googleapis.com/"), ConfigureMessageHandler = _ => mockHttp });
+            Mock<IRestResponse> restResponse = new Mock<IRestResponse>();
+            restResponse.Setup(r => r.ResponseStatus).Returns(ResponseStatus.Completed);
+            restResponse.Setup(r => r.StatusCode).Returns(System.Net.HttpStatusCode.OK);
+            restResponse.Setup(r => r.Content).Returns(json);
 
-            // Act
-            GoogleGeocodingService service = new GoogleGeocodingService("test", restClient);
-            var result = await service.GeocodeAddress(It.IsAny<string>());
+            Mock<IRestClient> mockRestClient = new Mock<IRestClient>();
+            mockRestClient.Setup(c => c.Execute(It.IsAny<RestRequest>()))
+                .Returns(restResponse.Object);
+
+            GoogleGeocodingService service = new GoogleGeocodingService("test", mockRestClient.Object);
+            var result = service.GeocodeAddress(It.IsAny<string>());
 
             result.IsSuccess.Should().BeTrue();
             result.Value.Should().NotBeNull();
@@ -222,19 +226,20 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
 
 
         [Fact]
-        public async Task VerifyUsZipCodeSearchDecodesCorrectly()
+        public void VerifyUsZipCodeSearchDecodesCorrectly()
         {
-            // Arrange
             String json = Assembly.GetExecutingAssembly().ReadEmbeddedResourceTextFile("Geocoding.Google.GoogleResponse.UsZipCode-83702.json");
-            var mockHttp = new MockHttpMessageHandler();
-            // Setup a respond for the user api (including a wildcard in the URL)
-            mockHttp.When("https://maps.googleapis.com/maps/api/*")
-                    .Respond("application/json", json); // Respond with JSON
-            var restClient = new RestClient(new RestClientOptions { BaseUrl = new Uri("https://maps.googleapis.com/"), ConfigureMessageHandler = _ => mockHttp });
+            Mock<IRestResponse> restResponse = new Mock<IRestResponse>();
+            restResponse.Setup(r => r.ResponseStatus).Returns(ResponseStatus.Completed);
+            restResponse.Setup(r => r.StatusCode).Returns(System.Net.HttpStatusCode.OK);
+            restResponse.Setup(r => r.Content).Returns(json);
 
-            // Act
-            GoogleGeocodingService service = new GoogleGeocodingService("test", restClient);
-            var result = await service.GeocodeAddress(It.IsAny<string>());
+            Mock<IRestClient> mockRestClient = new Mock<IRestClient>();
+            mockRestClient.Setup(c => c.Execute(It.IsAny<RestRequest>()))
+                .Returns(restResponse.Object);
+
+            GoogleGeocodingService service = new GoogleGeocodingService("test", mockRestClient.Object);
+            var result = service.GeocodeAddress(It.IsAny<string>());
 
             result.IsSuccess.Should().BeTrue();
             result.Value.Should().NotBeNull();
@@ -255,19 +260,20 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
 
 
         [Fact]
-        public async Task VerifyCorrectLocationTypesAttachedToGasStationResult()
+        public void VerifyCorrectLocationTypesAttachedToGasStationResult()
         {
-            // Assert
             String json = Assembly.GetExecutingAssembly().ReadEmbeddedResourceTextFile("Geocoding.Google.GoogleResponse.GasStation-KwikTrip.json");
-            var mockHttp = new MockHttpMessageHandler();
-            // Setup a respond for the user api (including a wildcard in the URL)
-            mockHttp.When("https://maps.googleapis.com/maps/api/*")
-                    .Respond("application/json", json); // Respond with JSON
-            var restClient = new RestClient(new RestClientOptions { BaseUrl = new Uri("https://maps.googleapis.com/"), ConfigureMessageHandler = _ => mockHttp });
+            Mock<IRestResponse> restResponse = new Mock<IRestResponse>();
+            restResponse.Setup(r => r.ResponseStatus).Returns(ResponseStatus.Completed);
+            restResponse.Setup(r => r.StatusCode).Returns(System.Net.HttpStatusCode.OK);
+            restResponse.Setup(r => r.Content).Returns(json);
 
-            // Act
-            GoogleGeocodingService service = new GoogleGeocodingService("test", restClient);
-            var result = await service.GeocodeAddress(It.IsAny<string>());
+            Mock<IRestClient> mockRestClient = new Mock<IRestClient>();
+            mockRestClient.Setup(c => c.Execute(It.IsAny<RestRequest>()))
+                .Returns(restResponse.Object);
+
+            GoogleGeocodingService service = new GoogleGeocodingService("test", mockRestClient.Object);
+            var result = service.GeocodeAddress(It.IsAny<string>());
 
             // Assert
             result.Value.Count.Should().Be(1);
@@ -281,20 +287,20 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
 
 
         [Fact]
-        public async Task VerifyCorrectLocationTypesAttachedToMuseumResult()
+        public void VerifyCorrectLocationTypesAttachedToMuseumResult()
         {
-            // Arrange
             String json = Assembly.GetExecutingAssembly().ReadEmbeddedResourceTextFile("Geocoding.Google.GoogleResponse.Museum-FieldMuseum.json");
+            Mock<IRestResponse> restResponse = new Mock<IRestResponse>();
+            restResponse.Setup(r => r.ResponseStatus).Returns(ResponseStatus.Completed);
+            restResponse.Setup(r => r.StatusCode).Returns(System.Net.HttpStatusCode.OK);
+            restResponse.Setup(r => r.Content).Returns(json);
 
-            var mockHttp = new MockHttpMessageHandler();
-            // Setup a respond for the user api (including a wildcard in the URL)
-            mockHttp.When("https://maps.googleapis.com/maps/api/*")
-                    .Respond("application/json", json); // Respond with JSON
-            var restClient = new RestClient(new RestClientOptions { BaseUrl = new Uri("https://maps.googleapis.com/"), ConfigureMessageHandler = _ => mockHttp });
+            Mock<IRestClient> mockRestClient = new Mock<IRestClient>();
+            mockRestClient.Setup(c => c.Execute(It.IsAny<RestRequest>()))
+                .Returns(restResponse.Object);
 
-            // Act
-            GoogleGeocodingService service = new GoogleGeocodingService("test", restClient);
-            var result = await service.GeocodeAddress(It.IsAny<string>());
+            GoogleGeocodingService service = new GoogleGeocodingService("test", mockRestClient.Object);
+            var result = service.GeocodeAddress(It.IsAny<string>());
 
             // Assert
             result.Value.Count.Should().Be(1);
@@ -305,25 +311,24 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
         }
 
         [Fact]
-        public async Task VerifyCorrectAirportLocationTypeAttachedToAirport()
+        public void VerifyCorrectAirportLocationTypeAttachedToAirport()
         {
-            // Arrange
             String json = Assembly.GetExecutingAssembly().ReadEmbeddedResourceTextFile("Geocoding.Google.GoogleResponse.Airport-OHare.json");
+            Mock<IRestResponse> restResponse = new Mock<IRestResponse>();
+            restResponse.Setup(r => r.ResponseStatus).Returns(ResponseStatus.Completed);
+            restResponse.Setup(r => r.StatusCode).Returns(System.Net.HttpStatusCode.OK);
+            restResponse.Setup(r => r.Content).Returns(json);
 
-            var mockHttp = new MockHttpMessageHandler();
-            // Setup a respond for the user api (including a wildcard in the URL)
-            mockHttp.When("https://maps.googleapis.com/maps/api/*")
-                    .Respond("application/json", json); // Respond with JSON
-            var restClient = new RestClient(new RestClientOptions { BaseUrl = new Uri("https://maps.googleapis.com/"),  ConfigureMessageHandler = _ => mockHttp });
+            Mock<IRestClient> mockRestClient = new Mock<IRestClient>();
+            mockRestClient.Setup(c => c.Execute(It.IsAny<RestRequest>()))
+                .Returns(restResponse.Object);
 
-            // Act
-            GoogleGeocodingService service = new GoogleGeocodingService("test", restClient);
-            var result = await service.GeocodeAddress(It.IsAny<string>());
+            GoogleGeocodingService service = new GoogleGeocodingService("test", mockRestClient.Object);
+            var result = service.GeocodeAddress(It.IsAny<string>());
 
             // Assert
             result.Value.Count.Should().Be(1);
             result.Value[0].LocationType.Should().HaveFlag(LocationType.AIRPORT);
-
         }
 
 

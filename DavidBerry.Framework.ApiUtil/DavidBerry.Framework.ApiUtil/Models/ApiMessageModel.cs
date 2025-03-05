@@ -6,7 +6,7 @@ namespace DavidBerry.Framework.ApiUtil.Models
 {
 
     /// <summary>
-    /// Simple model class to wrap informational messages returned by an API
+    /// Simple model class to wrap messages returned by an API, especially error messages.
     /// </summary>
     /// <remarks>
     /// This allows these messages to be returned as a JSON object rather than just a simple string
