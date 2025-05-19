@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using System.Linq;
 using RestSharp;
 using Moq;
+using System.Threading;
 
 namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
 {
@@ -64,14 +65,18 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
         public void VerifyFormattedLocationStringIsMappedToGeocodingResponseObject()
         {
             String json = Assembly.GetExecutingAssembly().ReadEmbeddedResourceTextFile("Geocoding.Google.GoogleResponse.GoogleHeadquarters.json");
-            Mock<IRestResponse> restResponse = new Mock<IRestResponse>();
-            restResponse.Setup(r => r.ResponseStatus).Returns(ResponseStatus.Completed);
-            restResponse.Setup(r => r.StatusCode).Returns(System.Net.HttpStatusCode.OK);
-            restResponse.Setup(r => r.Content).Returns(json);
+            RestResponse restResponse = new RestResponse();
+            restResponse.ResponseStatus = ResponseStatus.Completed;
+            restResponse.StatusCode = System.Net.HttpStatusCode.OK;
+            restResponse.Content = json;
 
+            // Mock the IRestClient to return the response.  The ExecuteAsync() method is the one real method that you need to mock
             Mock<IRestClient> mockRestClient = new Mock<IRestClient>();
-            mockRestClient.Setup(c => c.Execute(It.IsAny<RestRequest>()))
-                .Returns(restResponse.Object);
+            mockRestClient
+                .Setup(x => x.ExecuteAsync(
+                    It.IsAny<RestRequest>(),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(restResponse);
 
             GoogleGeocodingService service = new GoogleGeocodingService("test", mockRestClient.Object);
             var result = service.GeocodeAddress(It.IsAny<string>());
@@ -83,14 +88,18 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
         public void VerifyLocationLatitudeLongitudeMappedCorrectlyInReturnObject()
         {
             String json = Assembly.GetExecutingAssembly().ReadEmbeddedResourceTextFile("Geocoding.Google.GoogleResponse.GoogleHeadquarters.json");
-            Mock<IRestResponse> restResponse = new Mock<IRestResponse>();
-            restResponse.Setup(r => r.ResponseStatus).Returns(ResponseStatus.Completed);
-            restResponse.Setup(r => r.StatusCode).Returns(System.Net.HttpStatusCode.OK);
-            restResponse.Setup(r => r.Content).Returns(json);
+            RestResponse restResponse = new RestResponse();
+            restResponse.ResponseStatus = ResponseStatus.Completed;
+            restResponse.StatusCode = System.Net.HttpStatusCode.OK;
+            restResponse.Content = json;
 
+            // Mock the IRestClient to return the response.  The ExecuteAsync() method is the one real method that you need to mock
             Mock<IRestClient> mockRestClient = new Mock<IRestClient>();
-            mockRestClient.Setup(c => c.Execute(It.IsAny<RestRequest>()))
-                .Returns(restResponse.Object);
+            mockRestClient
+                .Setup(x => x.ExecuteAsync(
+                    It.IsAny<RestRequest>(),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(restResponse);
 
             GoogleGeocodingService service = new GoogleGeocodingService("test", mockRestClient.Object);
             var result = service.GeocodeAddress(It.IsAny<string>());
@@ -106,14 +115,18 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
         public void VerifyFullCallResponseWhenGoogleReturnsSingleAddress()
         {
             String json = Assembly.GetExecutingAssembly().ReadEmbeddedResourceTextFile("Geocoding.Google.GoogleResponse.GoogleHeadquarters.json");
-            Mock<IRestResponse> restResponse = new Mock<IRestResponse>();
-            restResponse.Setup(r => r.ResponseStatus).Returns(ResponseStatus.Completed);
-            restResponse.Setup(r => r.StatusCode).Returns(System.Net.HttpStatusCode.OK);
-            restResponse.Setup(r => r.Content).Returns(json);
+            RestResponse restResponse = new RestResponse();
+            restResponse.ResponseStatus = ResponseStatus.Completed;
+            restResponse.StatusCode = System.Net.HttpStatusCode.OK;
+            restResponse.Content = json;
 
+            // Mock the IRestClient to return the response.  The ExecuteAsync() method is the one real method that you need to mock
             Mock<IRestClient> mockRestClient = new Mock<IRestClient>();
-            mockRestClient.Setup(c => c.Execute(It.IsAny<RestRequest>()))
-                .Returns(restResponse.Object);
+            mockRestClient
+                .Setup(x => x.ExecuteAsync(
+                    It.IsAny<RestRequest>(),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(restResponse);
 
             GoogleGeocodingService service = new GoogleGeocodingService("test", mockRestClient.Object);
             var result = service.GeocodeAddress(It.IsAny<string>());
@@ -132,14 +145,18 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
         public void VerifyFailureResultReturnedWhenGoogleReturnsError()
         {
             String json = Assembly.GetExecutingAssembly().ReadEmbeddedResourceTextFile("Geocoding.Google.GoogleResponse.BillingDisabled.json");
-            Mock<IRestResponse> restResponse = new Mock<IRestResponse>();
-            restResponse.Setup(r => r.ResponseStatus).Returns(ResponseStatus.Completed);
-            restResponse.Setup(r => r.StatusCode).Returns(System.Net.HttpStatusCode.OK);
-            restResponse.Setup(r => r.Content).Returns(json);
+            RestResponse restResponse = new RestResponse();
+            restResponse.ResponseStatus = ResponseStatus.Completed;
+            restResponse.StatusCode = System.Net.HttpStatusCode.OK;
+            restResponse.Content = json;
 
+            // Mock the IRestClient to return the response.  The ExecuteAsync() method is the one real method that you need to mock
             Mock<IRestClient> mockRestClient = new Mock<IRestClient>();
-            mockRestClient.Setup(c => c.Execute(It.IsAny<RestRequest>()))
-                .Returns(restResponse.Object);
+            mockRestClient
+                .Setup(x => x.ExecuteAsync(
+                    It.IsAny<RestRequest>(),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(restResponse);
 
             GoogleGeocodingService service = new GoogleGeocodingService("test", mockRestClient.Object);
             var result = service.GeocodeAddress(It.IsAny<string>());
@@ -154,14 +171,18 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
         public void VerifySingleCitySearchDecodesCorrectly()
         {
             String json = Assembly.GetExecutingAssembly().ReadEmbeddedResourceTextFile("Geocoding.Google.GoogleResponse.City-BoiseId.json");
-            Mock<IRestResponse> restResponse = new Mock<IRestResponse>();
-            restResponse.Setup(r => r.ResponseStatus).Returns(ResponseStatus.Completed);
-            restResponse.Setup(r => r.StatusCode).Returns(System.Net.HttpStatusCode.OK);
-            restResponse.Setup(r => r.Content).Returns(json);
+            RestResponse restResponse = new RestResponse();
+            restResponse.ResponseStatus = ResponseStatus.Completed;
+            restResponse.StatusCode = System.Net.HttpStatusCode.OK;
+            restResponse.Content = json;
 
+            // Mock the IRestClient to return the response.  The ExecuteAsync() method is the one real method that you need to mock
             Mock<IRestClient> mockRestClient = new Mock<IRestClient>();
-            mockRestClient.Setup(c => c.Execute(It.IsAny<RestRequest>()))
-                .Returns(restResponse.Object);
+            mockRestClient
+                .Setup(x => x.ExecuteAsync(
+                    It.IsAny<RestRequest>(),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(restResponse);
 
             GoogleGeocodingService service = new GoogleGeocodingService("test", mockRestClient.Object);
             var result = service.GeocodeAddress(It.IsAny<string>());
@@ -188,14 +209,18 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
         public void VerifyCitySearchWithMultipleResultsDecodesCorrectly()
         {
             String json = Assembly.GetExecutingAssembly().ReadEmbeddedResourceTextFile("Geocoding.Google.GoogleResponse.MultipleCity-Springfield.json");
-            Mock<IRestResponse> restResponse = new Mock<IRestResponse>();
-            restResponse.Setup(r => r.ResponseStatus).Returns(ResponseStatus.Completed);
-            restResponse.Setup(r => r.StatusCode).Returns(System.Net.HttpStatusCode.OK);
-            restResponse.Setup(r => r.Content).Returns(json);
+            RestResponse restResponse = new RestResponse();
+            restResponse.ResponseStatus = ResponseStatus.Completed;
+            restResponse.StatusCode = System.Net.HttpStatusCode.OK;
+            restResponse.Content = json;
 
+            // Mock the IRestClient to return the response.  The ExecuteAsync() method is the one real method that you need to mock
             Mock<IRestClient> mockRestClient = new Mock<IRestClient>();
-            mockRestClient.Setup(c => c.Execute(It.IsAny<RestRequest>()))
-                .Returns(restResponse.Object);
+            mockRestClient
+                .Setup(x => x.ExecuteAsync(
+                    It.IsAny<RestRequest>(),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(restResponse);
 
             GoogleGeocodingService service = new GoogleGeocodingService("test", mockRestClient.Object);
             var result = service.GeocodeAddress(It.IsAny<string>());
@@ -229,14 +254,18 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
         public void VerifyUsZipCodeSearchDecodesCorrectly()
         {
             String json = Assembly.GetExecutingAssembly().ReadEmbeddedResourceTextFile("Geocoding.Google.GoogleResponse.UsZipCode-83702.json");
-            Mock<IRestResponse> restResponse = new Mock<IRestResponse>();
-            restResponse.Setup(r => r.ResponseStatus).Returns(ResponseStatus.Completed);
-            restResponse.Setup(r => r.StatusCode).Returns(System.Net.HttpStatusCode.OK);
-            restResponse.Setup(r => r.Content).Returns(json);
+            RestResponse restResponse = new RestResponse();
+            restResponse.ResponseStatus = ResponseStatus.Completed;
+            restResponse.StatusCode = System.Net.HttpStatusCode.OK;
+            restResponse.Content = json;
 
+            // Mock the IRestClient to return the response.  The ExecuteAsync() method is the one real method that you need to mock
             Mock<IRestClient> mockRestClient = new Mock<IRestClient>();
-            mockRestClient.Setup(c => c.Execute(It.IsAny<RestRequest>()))
-                .Returns(restResponse.Object);
+            mockRestClient
+                .Setup(x => x.ExecuteAsync(
+                    It.IsAny<RestRequest>(),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(restResponse);
 
             GoogleGeocodingService service = new GoogleGeocodingService("test", mockRestClient.Object);
             var result = service.GeocodeAddress(It.IsAny<string>());
@@ -263,14 +292,18 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
         public void VerifyCorrectLocationTypesAttachedToGasStationResult()
         {
             String json = Assembly.GetExecutingAssembly().ReadEmbeddedResourceTextFile("Geocoding.Google.GoogleResponse.GasStation-KwikTrip.json");
-            Mock<IRestResponse> restResponse = new Mock<IRestResponse>();
-            restResponse.Setup(r => r.ResponseStatus).Returns(ResponseStatus.Completed);
-            restResponse.Setup(r => r.StatusCode).Returns(System.Net.HttpStatusCode.OK);
-            restResponse.Setup(r => r.Content).Returns(json);
+            RestResponse restResponse = new RestResponse();
+            restResponse.ResponseStatus = ResponseStatus.Completed;
+            restResponse.StatusCode = System.Net.HttpStatusCode.OK;
+            restResponse.Content = json;
 
+            // Mock the IRestClient to return the response.  The ExecuteAsync() method is the one real method that you need to mock
             Mock<IRestClient> mockRestClient = new Mock<IRestClient>();
-            mockRestClient.Setup(c => c.Execute(It.IsAny<RestRequest>()))
-                .Returns(restResponse.Object);
+            mockRestClient
+                .Setup(x => x.ExecuteAsync(
+                    It.IsAny<RestRequest>(),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(restResponse);
 
             GoogleGeocodingService service = new GoogleGeocodingService("test", mockRestClient.Object);
             var result = service.GeocodeAddress(It.IsAny<string>());
@@ -289,15 +322,20 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
         [Fact]
         public void VerifyCorrectLocationTypesAttachedToMuseumResult()
         {
+            // Setup the response
             String json = Assembly.GetExecutingAssembly().ReadEmbeddedResourceTextFile("Geocoding.Google.GoogleResponse.Museum-FieldMuseum.json");
-            Mock<IRestResponse> restResponse = new Mock<IRestResponse>();
-            restResponse.Setup(r => r.ResponseStatus).Returns(ResponseStatus.Completed);
-            restResponse.Setup(r => r.StatusCode).Returns(System.Net.HttpStatusCode.OK);
-            restResponse.Setup(r => r.Content).Returns(json);
+            RestResponse restResponse = new RestResponse();
+            restResponse.ResponseStatus = ResponseStatus.Completed;
+            restResponse.StatusCode = System.Net.HttpStatusCode.OK;
+            restResponse.Content = json;
 
+            // Mock the IRestClient to return the response.  The ExecuteAsync() method is the one real method that you need to mock
             Mock<IRestClient> mockRestClient = new Mock<IRestClient>();
-            mockRestClient.Setup(c => c.Execute(It.IsAny<RestRequest>()))
-                .Returns(restResponse.Object);
+            mockRestClient
+                .Setup(x => x.ExecuteAsync(
+                    It.IsAny<RestRequest>(),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(restResponse);
 
             GoogleGeocodingService service = new GoogleGeocodingService("test", mockRestClient.Object);
             var result = service.GeocodeAddress(It.IsAny<string>());
@@ -314,14 +352,18 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
         public void VerifyCorrectAirportLocationTypeAttachedToAirport()
         {
             String json = Assembly.GetExecutingAssembly().ReadEmbeddedResourceTextFile("Geocoding.Google.GoogleResponse.Airport-OHare.json");
-            Mock<IRestResponse> restResponse = new Mock<IRestResponse>();
-            restResponse.Setup(r => r.ResponseStatus).Returns(ResponseStatus.Completed);
-            restResponse.Setup(r => r.StatusCode).Returns(System.Net.HttpStatusCode.OK);
-            restResponse.Setup(r => r.Content).Returns(json);
+            RestResponse restResponse = new RestResponse();
+            restResponse.ResponseStatus = ResponseStatus.Completed;
+            restResponse.StatusCode = System.Net.HttpStatusCode.OK;
+            restResponse.Content = json;
 
+            // Mock the IRestClient to return the response.  The ExecuteAsync() method is the one real method that you need to mock
             Mock<IRestClient> mockRestClient = new Mock<IRestClient>();
-            mockRestClient.Setup(c => c.Execute(It.IsAny<RestRequest>()))
-                .Returns(restResponse.Object);
+            mockRestClient
+                .Setup(x => x.ExecuteAsync(
+                    It.IsAny<RestRequest>(),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(restResponse);
 
             GoogleGeocodingService service = new GoogleGeocodingService("test", mockRestClient.Object);
             var result = service.GeocodeAddress(It.IsAny<string>());

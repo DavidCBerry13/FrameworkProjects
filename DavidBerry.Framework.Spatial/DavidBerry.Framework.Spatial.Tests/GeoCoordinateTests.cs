@@ -24,11 +24,9 @@ namespace DavidBerry.Framework.Spatial.Tests
 
             p.Should().NotBeNull();
 
-            p.Latitude.Unit.Should().BeOfType<AngleUnit>();
             p.Latitude.Unit.Should().Be(AngleUnit.Degree);
             p.Latitude.Value.Should().Be(latitude);
 
-            p.Longitude.Unit.Should().BeOfType<AngleUnit>();
             p.Longitude.Unit.Should().Be(AngleUnit.Degree);
             p.Longitude.Value.Should().Be(longitude);
         }
