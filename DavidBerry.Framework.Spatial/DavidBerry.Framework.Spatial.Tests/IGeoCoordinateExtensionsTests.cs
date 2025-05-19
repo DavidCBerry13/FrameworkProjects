@@ -39,7 +39,6 @@ namespace DavidBerry.Framework.Spatial.Tests
             // Act
             var distance = origin.HaversineDistance(destination);
 
-            distance.Unit.Should().BeOfType<LengthUnit>();
             distance.Unit.Should().Be(LengthUnit.Meter);
         }
 
@@ -72,7 +71,6 @@ namespace DavidBerry.Framework.Spatial.Tests
 
             var bearing = origin.InitialBearing(destination);
 
-            bearing.Unit.Should().BeOfType<AngleUnit>();
             bearing.Unit.Should().Be(AngleUnit.Degree);
             bearing.Value.Should().BeApproximately(expectedBearing, 0.005);
         }

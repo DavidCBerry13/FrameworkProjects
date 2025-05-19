@@ -60,11 +60,11 @@ namespace DavidBerry.Framework.Spatial.Geocoding.Google
 
         public Result<List<GeocodingResult>> GeocodeAddress(string address)
         {
-            var request = new RestRequest("maps/api/geocode/json", Method.GET);
+            var request = new RestRequest("maps/api/geocode/json", Method.Get);
             request.AddParameter("key", _apiKey);
             request.AddParameter("query", address);
 
-            IRestResponse response = _restClient.Execute(request);
+            RestResponse response = _restClient.Execute(request);
             if (response.ResponseStatus == ResponseStatus.Completed && response.StatusCode == HttpStatusCode.OK)
             {
                 var googleResponse = JsonConvert.DeserializeObject<GoogleGeocodingResponse>(response.Content);
