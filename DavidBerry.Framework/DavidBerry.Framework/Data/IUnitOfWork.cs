@@ -1,13 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DavidBerry.Framework.Data
 {
     public interface IUnitOfWork
     {
 
-        void SaveChanges();
+        public void SaveChanges();
 
+        public Task SaveChangesAsync();
     }
 }
