@@ -1,5 +1,5 @@
 ﻿using DavidBerry.Framework.Functional;
-using FluentAssertions;
+using Shouldly;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,21 +11,23 @@ namespace DavidBerry.Framework.Tests.Functional
     {
 
         [Fact]
-        public void CanConstructMaybeObjectWithValueIsObject()
+        public void CanCreateMaybeObjectWithValueIsObject()
         {
             Customer customer = new Customer() { Id = 1, FirstName = "John", LastName = "Smith" };
 
-            var value = Maybe.Create(customer);
+            var value = Maybe.Create<Customer>(customer);
 
-            value.Should().NotBeNull();
+            //value.ShouldNotBeNull();
+            value.ShouldBeOfType<Maybe<Customer>>();
         }
 
         [Fact]
-        public void CanConstructMaybeObjectWithValueAsNull()
+        public void CanCreateMaybeObjectWithValueAsNull()
         {
             var value = Maybe.Create<Customer>(null);
 
-            value.Should().NotBeNull();
+            //value.ShouldNotBeNull();
+            value.ShouldBeOfType<Maybe<Customer>>();
         }
 
         [Fact]
@@ -35,7 +37,8 @@ namespace DavidBerry.Framework.Tests.Functional
 
             var maybe = Maybe.Create(customer);
 
-            maybe.HasValue.Should().BeTrue();
+            maybe.HasValue.ShouldBeTrue();
+            maybe.HasNoValue.ShouldBeFalse();
         }
 
         [Fact]
@@ -43,7 +46,8 @@ namespace DavidBerry.Framework.Tests.Functional
         {
             var maybe = Maybe.Create<Customer>(null);
 
-            maybe.HasValue.Should().BeFalse();
+            maybe.HasValue.ShouldBeFalse();
+            maybe.HasNoValue.ShouldBeTrue();
         }
 
 
@@ -54,9 +58,9 @@ namespace DavidBerry.Framework.Tests.Functional
 
             var maybe = Maybe.Create(customer);
 
-            maybe.Value.Id.Should().Be(1);
-            maybe.Value.FirstName.Should().Be("John");
-            maybe.Value.LastName.Should().Be("Smith");
+            maybe.Value.Id.ShouldBe(1);
+            maybe.Value.FirstName.ShouldBe("John");
+            maybe.Value.LastName.ShouldBe("Smith");
         }
 
         [Fact]
@@ -66,12 +70,12 @@ namespace DavidBerry.Framework.Tests.Functional
 
             var maybe = Maybe.Create(customer);
 
-            var firstName = maybe.Eval(
+            var firstName = maybe.Match(
                 (customer) => customer.FirstName,
                 () => "None"
             );
 
-            firstName.Should().Be("John");
+            firstName.ShouldBe("John");
         }
 
 
@@ -80,13 +84,55 @@ namespace DavidBerry.Framework.Tests.Functional
         {
             var maybe = Maybe.Create<Customer>(null);
 
-            var firstName = maybe.Eval(
+            var firstName = maybe.Match(
                 (customer) => customer.FirstName,
                 () => "None"
             );
 
-            firstName.Should().Be("None");
+            firstName.ShouldBe("None");
         }
+
+
+
+        [Fact]
+        public void MaybeObjectIsCreatedImplicitelyWithValue()
+        {
+            Maybe<string> maybe = "Some Value";
+
+            maybe.ShouldBeOfType<Maybe<string>>();
+            maybe.HasValue.ShouldBeTrue();
+            maybe.HasNoValue.ShouldBeFalse();
+            maybe.Value.ShouldBe("Some Value");
+        }
+
+
+        [Fact]
+        public void MaybeObjectIsCreatedImplicitelyWithNull()
+        {
+            // Local Function to Test
+            //Maybe<string> ReturnsNull()
+            //{
+            //    return null;
+            //}
+
+            Maybe<string> maybe = SomeFunction(true);
+
+            //maybe.ShouldBeOfType<Maybe<string>>();
+            maybe.HasValue.ShouldBeFalse();
+            maybe.HasNoValue.ShouldBeTrue();
+            maybe.Value.ShouldBeNull();
+        }
+
+
+
+        public Maybe<string> SomeFunction(bool returnNull)
+        {
+            if ( returnNull) return null;
+
+            return "Not Null";
+        }
+
+
 
 
     }
