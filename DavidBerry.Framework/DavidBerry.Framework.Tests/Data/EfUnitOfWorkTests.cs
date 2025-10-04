@@ -21,7 +21,7 @@ namespace DavidBerry.Framework.Tests.Data
             
             // Act
             EfUnitOfWork<DbContext> uow = new EfUnitOfWork<DbContext>(mockContext.Object);
-            uow.SaveChanges();
+            uow.CommitChanges();
 
             // Assert
             mockContext.Verify(ctx => ctx.SaveChanges(), Times.Once);
@@ -38,7 +38,7 @@ namespace DavidBerry.Framework.Tests.Data
 
             // Act and Assert
             EfUnitOfWork<DbContext> uow = new EfUnitOfWork<DbContext>(mockContext.Object);
-            var exception = Assert.Throws<DBConcurrencyException>(() => uow.SaveChanges());
+            var exception = Assert.Throws<DBConcurrencyException>(() => uow.CommitChanges());
             exception.InnerException.Should().BeOfType<DbUpdateConcurrencyException>();
         }
 
