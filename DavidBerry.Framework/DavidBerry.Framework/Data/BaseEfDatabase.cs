@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace DavidBerry.Framework.Data
 {
-    public class EfUnitOfWork<T> : IUnitOfWork where T : DbContext
+    public abstract class BaseEfDatabase<T> : IUnitOfWork where T : DbContext
     {
 
 
-        public EfUnitOfWork(T dbContext)
+        public BaseEfDatabase(T dbContext)
         {
             _dataContext = dbContext;
         }
