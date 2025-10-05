@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace DavidBerry.Framework.Data
 {
-    public class EfUnitOfWork<T> : IUnitOfWork where T : DbContext
+    public abstract class BaseEfDatabase<T> : IUnitOfWork where T : DbContext
     {
 
 
-        public EfUnitOfWork(T dbContext)
+        public BaseEfDatabase(T dbContext)
         {
             _dataContext = dbContext;
         }
@@ -21,7 +21,7 @@ namespace DavidBerry.Framework.Data
 
 
 
-        public void SaveChanges()
+        public void CommitChanges()
         {
             try
             {
@@ -47,6 +47,11 @@ namespace DavidBerry.Framework.Data
                 // used in System.Data because that is what the service layer expects
                 throw new DBConcurrencyException("Unable to update date due to a concurency exception.  Typically this means the object has been updated by another process.  Re-fetch the object and try again", ce);
             }
+        }
+
+        public void RollbackChanges()
+        {
+
         }
     }
 }

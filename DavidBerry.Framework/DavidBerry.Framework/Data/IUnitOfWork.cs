@@ -8,8 +8,9 @@ namespace DavidBerry.Framework.Data
     public interface IUnitOfWork
     {
 
-        public void SaveChanges();
+        public void CommitChanges();
 
-        public Task SaveChangesAsync();
+
+        public void RollbackChanges();
     }
 }
