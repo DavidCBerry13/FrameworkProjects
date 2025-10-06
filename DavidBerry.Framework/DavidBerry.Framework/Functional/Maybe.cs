@@ -19,50 +19,54 @@ namespace DavidBerry.Framework.Functional;
 /// <typeparam name="T"></typeparam>
 public struct Maybe<T> where T : class
 {
-    public T Value { get; private set; }
 
-    internal Maybe(T value)
+
+    private T _value;
+
+    public T Value => _value;
+
+
+    public Maybe(T value)
     {
-        //ArgumentNullException.ThrowIfNull(value, nameof(value));
-
-        Value = value;
+        _value = value;
     }
 
-    //private Maybe()
-    //{
-    //}
 
+
+    public static Maybe<T> Create(T value)
+    {
+        return new Maybe<T>(value);
+    }
+
+
+    public static Maybe<T> None() => new Maybe<T>();
 
     /// <summary>
-    /// Checks if this object contains an actual value (is not null)
+    /// Checks if this Maybe object contains a value
     /// </summary>
-    public bool HasValue => Value != null;
+    public bool HasValue => _value != null;
 
     /// <summary>
-    /// Check if this object does not contain a value (and is null)
+    /// Chacks if this Maybe object does not contain a value
     /// </summary>
     public bool HasNoValue => !HasValue;
 
 
-    // ------------------------------------------------------------------------
-    // Operators
-    // ------------------------------------------------------------------------
-
-    public static implicit operator Maybe<T>(T? value)
+    /// <summary>
+    /// Casts a value of type T to a Maybe of type T
+    /// </summary>
+    /// <remarks>
+    /// This is useful so a method can have a return type of Maybe<T> and you can just return a value of type T
+    /// from the code within the methd
+    /// </remarks>
+    /// <param name="value"></param>
+    public static implicit operator Maybe<T>(T value)
     {
-        if (value is Maybe<T> m)
-        {
-            return m;
-        }
-
-        return Maybe.Create<T>(value);
+        return new Maybe<T>(value);
     }
 
     public static bool operator ==(Maybe<T> maybe, T value)
     {
-        if (value is Maybe<T> maybeValue)
-            return maybe.Equals(maybeValue);
-
         if (maybe.HasNoValue)
             return false;
 
@@ -74,90 +78,44 @@ public struct Maybe<T> where T : class
         return !(maybe == value);
     }
 
-
-    public static bool operator ==(Maybe<T> maybe, object other)
+    /// <summary>
+    /// Checks if this Maybe object contains a value and calls the appropriate function
+    /// </summary>
+    /// <remarks>
+    /// This is useful to extract a value from the Maybe object without having to check if it has a value first
+    /// </remarks>
+    /// <typeparam name="R"></typeparam>
+    /// <param name="hasValue"></param>
+    /// <param name="hasNoValue"></param>
+    /// <returns></returns>
+    public R Match<R>(Func<T, R> hasValue, Func<R> hasNoValue)
     {
-        return maybe.Equals(other);
+        return HasValue
+            ? hasValue(_value)
+            : hasNoValue();
     }
 
-    public static bool operator !=(Maybe<T> maybe, object other)
+
+    public override bool Equals(object? obj)
     {
-        return !(maybe == other);
-    }
-
-
-    public static bool operator ==(Maybe<T> first, Maybe<T> second)
-    {
-        return first.Equals(second);
-    }
-
-    public static bool operator !=(Maybe<T> first, Maybe<T> second)
-    {
-        return !(first == second);
-    }
-
-    public override bool Equals(object obj)
-    {
-        if (obj == null)
-            return false;
-
-        if (obj is Maybe<T> otherMaybe)
-            return Equals(otherMaybe);
-
-        if (obj is T otherValue)
-            return Equals(otherValue);
-
+        if (obj is Maybe<T> other)
+        {
+            if (HasNoValue && other.HasNoValue)
+                return true;
+            if (HasNoValue || other.HasNoValue)
+                return false;
+            return EqualityComparer<T>.Default.Equals(Value, other.Value);
+        }
         return false;
     }
-
-
-
-    public bool Equals(Maybe<T> other)
-    {
-        if (HasNoValue && other.HasNoValue)
-            return true;
-
-        if (HasNoValue || other.HasNoValue)
-            return false;
-
-        return EqualityComparer<T>.Default.Equals(Value, other.Value);
-    }
-
 
     public override int GetHashCode()
     {
         if (HasNoValue)
             return 0;
-
         return Value.GetHashCode();
     }
 
-
-    public override string ToString()
-    {
-        if (HasNoValue)
-            return "No value";
-
-        return Value.ToString() ?? Value.GetType().Name;
-    }
-
-
-
-    public static Maybe<T> None() => new Maybe<T>(null);
-
-    /// <summary>
-    /// Checks if this object contains a value and then runs the corresponding funtion based on whether of not it does contain a value.
-    /// </summary>
-    /// <typeparam name="U"></typeparam>
-    /// <param name="hasValue"></param>
-    /// <param name="noValue"></param>
-    /// <returns></returns>
-    public U Match<U>(Func<T, U> hasValue, Func<U> hasNoValue)
-    {
-        return HasValue
-          ? hasValue(Value)
-          : hasNoValue();
-    }
 
 }
 
