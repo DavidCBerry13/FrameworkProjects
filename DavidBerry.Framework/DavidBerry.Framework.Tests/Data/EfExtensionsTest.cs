@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
-using FluentAssertions;
 using DavidBerry.Framework;
 using DavidBerry.Framework.Data;
 using DavidBerry.Framework.Domain;
 using Microsoft.EntityFrameworkCore;
+using Shouldly;
 
 namespace DavidBerry.Framework.Tests.Data
 {
@@ -18,7 +18,7 @@ namespace DavidBerry.Framework.Tests.Data
         {
             var efSate = EfExtensions.ConvertToEFState(ObjectState.NEW);
 
-            efSate.Should().Be(EntityState.Added);
+            efSate.ShouldBe(EntityState.Added);
         }
 
         [Fact]
@@ -26,7 +26,7 @@ namespace DavidBerry.Framework.Tests.Data
         {
             var efSate = EfExtensions.ConvertToEFState(ObjectState.MODIFIED);
 
-            efSate.Should().Be(EntityState.Modified);
+            efSate.ShouldBe(EntityState.Modified);
         }
 
 
@@ -35,7 +35,7 @@ namespace DavidBerry.Framework.Tests.Data
         {
             var efSate = EfExtensions.ConvertToEFState(ObjectState.DELETED);
 
-            efSate.Should().Be(EntityState.Deleted);
+            efSate.ShouldBe(EntityState.Deleted);
         }
 
 
@@ -44,7 +44,7 @@ namespace DavidBerry.Framework.Tests.Data
         {
             var efSate = EfExtensions.ConvertToEFState(ObjectState.UNCHANGED);
 
-            efSate.Should().Be(EntityState.Unchanged);
+            efSate.ShouldBe(EntityState.Unchanged);
         }
 
     }

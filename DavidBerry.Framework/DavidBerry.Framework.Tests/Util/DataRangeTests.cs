@@ -1,5 +1,5 @@
 ﻿using DavidBerry.Framework.Util;
-using FluentAssertions;
+using Shouldly;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,8 +17,8 @@ namespace DavidBerry.Framework.Tests.Util
         {
             DataRange<int> range = new DataRange<int>(minimum, maximum);
 
-            range.Minimum.Should().Be(minimum);
-            range.Maximum.Should().Be(maximum);
+            range.Minimum.ShouldBe(minimum);
+            range.Maximum.ShouldBe(maximum);
         }
 
 
@@ -42,7 +42,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var result = range.ContainsValue(0);
 
-            result.Should().BeTrue();
+            result.ShouldBeTrue();
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var result = range.ContainsValue(100);
 
-            result.Should().BeTrue();
+            result.ShouldBeTrue();
         }
 
         [Fact]
@@ -62,7 +62,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var result = range.ContainsValue(45);
 
-            result.Should().BeTrue();
+            result.ShouldBeTrue();
         }
 
         [Fact]
@@ -72,7 +72,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var result = range.ContainsValue(24);
 
-            result.Should().BeFalse();
+            result.ShouldBeFalse();
         }
 
 
@@ -83,7 +83,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var result = range.ContainsValue(101);
 
-            result.Should().BeFalse();
+            result.ShouldBeFalse();
         }
 
 
@@ -97,7 +97,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var result = range.ContainsRange(other);
 
-            result.Should().BeTrue();
+            result.ShouldBeTrue();
         }
 
         [Fact]
@@ -108,7 +108,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var result = range.ContainsRange(other);
 
-            result.Should().BeTrue();
+            result.ShouldBeTrue();
         }
 
         [Fact]
@@ -119,7 +119,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var result = range.ContainsRange(other);
 
-            result.Should().BeTrue();
+            result.ShouldBeTrue();
         }
 
 
@@ -131,7 +131,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var result = range.ContainsRange(other);
 
-            result.Should().BeTrue();
+            result.ShouldBeTrue();
         }
 
         [Fact]
@@ -142,7 +142,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var result = range.ContainsRange(other);
 
-            result.Should().BeFalse();
+            result.ShouldBeFalse();
         }
 
 
@@ -154,7 +154,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var result = range.ContainsRange(other);
 
-            result.Should().BeFalse();
+            result.ShouldBeFalse();
         }
 
 
@@ -166,7 +166,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var result = range.ContainsRange(other);
 
-            result.Should().BeFalse();
+            result.ShouldBeFalse();
         }
 
 
@@ -179,7 +179,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var result = range.ContainsRange(other);
 
-            result.Should().BeFalse();
+            result.ShouldBeFalse();
         }
 
 
@@ -191,7 +191,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var result = range.ContainsRange(other);
 
-            result.Should().BeFalse();
+            result.ShouldBeFalse();
         }
 
 
@@ -214,7 +214,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var result = range.IsInsideRange(other);
 
-            result.Should().BeTrue();
+            result.ShouldBeTrue();
         }
 
         [Fact]
@@ -225,7 +225,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var result = range.IsInsideRange(other);
 
-            result.Should().BeFalse();
+            result.ShouldBeFalse();
         }
 
         [Fact]
@@ -236,7 +236,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var result = range.IsInsideRange(other);
 
-            result.Should().BeFalse();
+            result.ShouldBeFalse();
         }
 
 
@@ -248,7 +248,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var result = range.IsInsideRange(other);
 
-            result.Should().BeFalse();
+            result.ShouldBeFalse();
         }
 
         [Fact]
@@ -259,7 +259,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var result = range.IsInsideRange(other);
 
-            result.Should().BeTrue();
+            result.ShouldBeTrue();
         }
 
 
@@ -271,7 +271,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var result = range.IsInsideRange(other);
 
-            result.Should().BeFalse();
+            result.ShouldBeFalse();
         }
 
 
@@ -283,7 +283,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var result = range.IsInsideRange(other);
 
-            result.Should().BeFalse();
+            result.ShouldBeFalse();
         }
 
 
@@ -296,7 +296,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var result = range.IsInsideRange(other);
 
-            result.Should().BeTrue();
+            result.ShouldBeTrue();
         }
 
 
@@ -308,7 +308,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var result = range.IsInsideRange(other);
 
-            result.Should().BeTrue();
+            result.ShouldBeTrue();
         }
 
         [Fact]
@@ -318,7 +318,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var result = range.ToString();
 
-            result.Should().Be("[10-20]");
+            result.ShouldBe("[10-20]");
         }
 
 

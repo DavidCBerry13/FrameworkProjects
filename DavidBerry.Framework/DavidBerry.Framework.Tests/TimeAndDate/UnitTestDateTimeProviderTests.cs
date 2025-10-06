@@ -1,5 +1,5 @@
 ﻿using DavidBerry.Framework.TimeAndDate;
-using FluentAssertions;
+using Shouldly;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,14 +21,14 @@ namespace DavidBerry.Framework.Tests.TimeAndDate
             var result = dateTimeProvider.CurrentDateTime;
 
             // Assert
-            result.Year.Should().Be(2019);
-            result.Month.Should().Be(12);
-            result.Day.Should().Be(1);
-            result.Hour.Should().Be(11);
-            result.Minute.Should().Be(30);
-            result.Second.Should().Be(0);
+            result.Year.ShouldBe(2019);
+            result.Month.ShouldBe(12);
+            result.Day.ShouldBe(1);
+            result.Hour.ShouldBe(11);
+            result.Minute.ShouldBe(30);
+            result.Second.ShouldBe(0);
 
-            result.Kind.Should().Be(DateTimeKind.Local);
+            result.Kind.ShouldBe(DateTimeKind.Local);
         }
 
 
@@ -45,14 +45,14 @@ namespace DavidBerry.Framework.Tests.TimeAndDate
             var result = dateTimeProvider.CurrentUtcDateTime;
 
             // Assert
-            result.Year.Should().Be(expectedDateTime.Year);
-            result.Month.Should().Be(expectedDateTime.Month);
-            result.Day.Should().Be(expectedDateTime.Day);
-            result.Hour.Should().Be(expectedDateTime.Hour);
-            result.Minute.Should().Be(expectedDateTime.Minute);
-            result.Second.Should().Be(expectedDateTime.Second);
+            result.Year.ShouldBe(expectedDateTime.Year);
+            result.Month.ShouldBe(expectedDateTime.Month);
+            result.Day.ShouldBe(expectedDateTime.Day);
+            result.Hour.ShouldBe(expectedDateTime.Hour);
+            result.Minute.ShouldBe(expectedDateTime.Minute);
+            result.Second.ShouldBe(expectedDateTime.Second);
 
-            result.Kind.Should().Be(DateTimeKind.Utc);
+            result.Kind.ShouldBe(DateTimeKind.Utc);
         }
 
 
@@ -68,13 +68,13 @@ namespace DavidBerry.Framework.Tests.TimeAndDate
             var result = dateTimeProvider.Today;
 
             // Assert
-            result.Year.Should().Be(2019);
-            result.Month.Should().Be(12);
-            result.Day.Should().Be(1);
-            result.Hour.Should().Be(0);
-            result.Minute.Should().Be(0);
-            result.Second.Should().Be(0);
-            result.Kind.Should().Be(DateTimeKind.Local);
+            result.Year.ShouldBe(2019);
+            result.Month.ShouldBe(12);
+            result.Day.ShouldBe(1);
+            result.Hour.ShouldBe(0);
+            result.Minute.ShouldBe(0);
+            result.Second.ShouldBe(0);
+            result.Kind.ShouldBe(DateTimeKind.Local);
         }
 
 

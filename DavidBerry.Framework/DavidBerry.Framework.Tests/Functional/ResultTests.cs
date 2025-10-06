@@ -1,5 +1,5 @@
 ﻿using DavidBerry.Framework.Functional;
-using FluentAssertions;
+using Shouldly;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,8 +14,8 @@ namespace DavidBerry.Framework.Tests.Functional
         {
             Result result = Result.Success();
 
-            result.IsSuccess.Should().BeTrue();
-            result.Error.Should().BeOfType<NoError>();
+            result.IsSuccess.ShouldBeTrue();
+            result.Error.ShouldBeOfType<NoError>();
         }
 
         [Fact]
@@ -23,7 +23,7 @@ namespace DavidBerry.Framework.Tests.Functional
         {
             Result result = Result.Failure("Things went terribly wrong");
 
-            result.IsSuccess.Should().BeFalse();
+            result.IsSuccess.ShouldBeFalse();
         }
 
         [Fact]
@@ -32,8 +32,8 @@ namespace DavidBerry.Framework.Tests.Functional
             string errorMessage = "Things went terribly wrong";
             Result result = Result.Failure(errorMessage);
 
-            result.Error.Should().BeOfType<Error>();
-            result.Error.Message.Should().Be(errorMessage);
+            result.Error.ShouldBeOfType<Error>();
+            result.Error.Message.ShouldBe(errorMessage);
         }
 
 
@@ -43,8 +43,8 @@ namespace DavidBerry.Framework.Tests.Functional
             string errorMessage = "That data was not valid";
             Result result = Result.Failure(new InvalidDataError(errorMessage));
 
-            result.Error.Should().BeOfType<InvalidDataError>();
-            result.Error.Message.Should().Be(errorMessage);
+            result.Error.ShouldBeOfType<InvalidDataError>();
+            result.Error.Message.ShouldBe(errorMessage);
         }
 
 
@@ -55,9 +55,9 @@ namespace DavidBerry.Framework.Tests.Functional
             var returnValue = 32;
             var result = Result.Success(returnValue);
 
-            result.IsSuccess.Should().BeTrue();
-            result.Value.Should().Be(32);
-            result.Error.Should().BeOfType<NoError>();
+            result.IsSuccess.ShouldBeTrue();
+            result.Value.ShouldBe(32);
+            result.Error.ShouldBeOfType<NoError>();
         }
 
 
@@ -67,9 +67,9 @@ namespace DavidBerry.Framework.Tests.Functional
 
             var result = Result.Success(new SampleEmployee("John", "Smith", "Developer"));
 
-            result.IsSuccess.Should().BeTrue();
-            result.Value.Should().BeOfType<SampleEmployee>();
-            result.Error.Should().BeOfType<NoError>();
+            result.IsSuccess.ShouldBeTrue();
+            result.Value.ShouldBeOfType<SampleEmployee>();
+            result.Error.ShouldBeOfType<NoError>();
         }
 
 
@@ -80,7 +80,7 @@ namespace DavidBerry.Framework.Tests.Functional
             var errorMessage = "Something went wrong";
             var result = Result.Failure<int>(errorMessage);
 
-            result.IsSuccess.Should().BeFalse();
+            result.IsSuccess.ShouldBeFalse();
         }
 
 
@@ -90,7 +90,7 @@ namespace DavidBerry.Framework.Tests.Functional
             var errorMessage = "Something went wrong";
             var result = Result.Failure<int>(errorMessage);
 
-            result.Value.Should().Be(default);
+            result.Value.ShouldBe(default);
         }
 
 
@@ -100,8 +100,8 @@ namespace DavidBerry.Framework.Tests.Functional
             var errorMessage = "Something went wrong";
             var result = Result.Failure<int>(errorMessage);
 
-            result.Error.Message.Should().Be(errorMessage);
-            result.Error.Message.Should().NotBeOfType<NoError>();
+            result.Error.Message.ShouldBe(errorMessage);
+            result.Error.Message.ShouldNotBeOfType<NoError>();
         }
 
 
@@ -111,8 +111,8 @@ namespace DavidBerry.Framework.Tests.Functional
             var errorMessage = "I could not find that employee";
             var result = Result.Failure<int>(new ObjectNotFoundError(errorMessage));
 
-            result.Error.Should().BeOfType<ObjectNotFoundError>();
-            result.Error.Message.Should().Be(errorMessage);
+            result.Error.ShouldBeOfType<ObjectNotFoundError>();
+            result.Error.Message.ShouldBe(errorMessage);
         }
 
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnitsNet;
 using Xunit;
-using FluentAssertions;
+using Shouldly;
 using UnitsNet.Units;
 using DavidBerry.Framework.Spatial;
 
@@ -25,13 +25,13 @@ namespace DavidBerry.Framework.Spatial.Tests
             var distanceInMeters = origin.HaversineDistance(destination);
 
             // Assert
-            distanceInMeters.Value.Should().BeApproximately(expectedDistance, 0.005);
+            distanceInMeters.Value.ShouldBe(expectedDistance, 0.005);
         }
 
 
         [Fact]
         public void CheckDefaultDistanceUnitsIsMeters()
-        {            
+        {
             // Arrange
             GeoCoordinate origin = new GeoCoordinate(41.866738, -87.616977);
             GeoCoordinate destination = new GeoCoordinate(40.689311, -74.044503);
@@ -39,7 +39,7 @@ namespace DavidBerry.Framework.Spatial.Tests
             // Act
             var distance = origin.HaversineDistance(destination);
 
-            distance.Unit.Should().Be(LengthUnit.Meter);
+            distance.Unit.ShouldBe(LengthUnit.Meter);
         }
 
 
@@ -54,8 +54,8 @@ namespace DavidBerry.Framework.Spatial.Tests
             var distance = origin.HaversineDistance(destination, LengthUnit.Mile);
 
             // Assert
-            distance.Unit.Should().Be(LengthUnit.Mile);
-            distance.Value.Should().BeApproximately(689.36, 0.01);
+            distance.Unit.ShouldBe(LengthUnit.Mile);
+            distance.Value.ShouldBe(689.36, 0.01);
         }
 
 
@@ -71,8 +71,8 @@ namespace DavidBerry.Framework.Spatial.Tests
 
             var bearing = origin.InitialBearing(destination);
 
-            bearing.Unit.Should().Be(AngleUnit.Degree);
-            bearing.Value.Should().BeApproximately(expectedBearing, 0.005);
+            bearing.Unit.ShouldBe(AngleUnit.Degree);
+            bearing.Value.ShouldBe(expectedBearing, 0.005);
         }
 
     }

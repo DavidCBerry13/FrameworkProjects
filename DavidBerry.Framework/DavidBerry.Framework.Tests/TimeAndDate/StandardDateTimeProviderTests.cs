@@ -1,5 +1,5 @@
 ﻿using DavidBerry.Framework.TimeAndDate;
-using FluentAssertions;
+using Shouldly;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,10 +19,10 @@ namespace DavidBerry.Framework.Tests.TimeAndDate
 
             // Act
             var result = dateTimeProvider.CurrentDateTime;
-            
+
             // Assert
-            result.Should().BeCloseTo(controlTime, new TimeSpan(TimeSpan.TicksPerMillisecond * 100));
-            result.Kind.Should().Be(DateTimeKind.Local);
+            result.ShouldBeInRange(controlTime.AddMilliseconds(-100), controlTime.AddMilliseconds(100));
+            result.Kind.ShouldBe(DateTimeKind.Local);
         }
 
         [Fact]
@@ -36,8 +36,8 @@ namespace DavidBerry.Framework.Tests.TimeAndDate
             var result = dateTimeProvider.CurrentUtcDateTime;
 
             // Assert
-            result.Should().BeCloseTo(controlTime, new TimeSpan(TimeSpan.TicksPerMillisecond * 100));
-            result.Kind.Should().Be(DateTimeKind.Utc);
+            result.ShouldBeInRange(controlTime.AddMilliseconds(-100), controlTime.AddMilliseconds(100));
+            result.Kind.ShouldBe(DateTimeKind.Utc);
         }
 
 
@@ -52,8 +52,8 @@ namespace DavidBerry.Framework.Tests.TimeAndDate
             var result = dateTimeProvider.Today;
 
             // Assert
-            result.Should().Be(controlTime);
-            result.Kind.Should().Be(DateTimeKind.Local);
+            result.ShouldBe(controlTime);
+            result.Kind.ShouldBe(DateTimeKind.Local);
         }
 
 

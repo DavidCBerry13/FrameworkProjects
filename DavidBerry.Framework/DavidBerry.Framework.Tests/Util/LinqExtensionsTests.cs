@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using Xunit;
-using FluentAssertions;
+using Shouldly;
 using DavidBerry.Framework.Util;
 
 namespace DavidBerry.Framework.Tests.Util
@@ -30,11 +30,11 @@ namespace DavidBerry.Framework.Tests.Util
             var missingColors = colors.WhereNotExists(target, (x, y) => x == y).ToList();
 
             // Assert
-            missingColors.Count.Should().Be(2);
-            missingColors.Should().Contain("Blue");
-            missingColors.Should().Contain("White");
-            missingColors.Should().NotContain("Red");
-            missingColors.Should().NotContain("Green");
+            missingColors.Count.ShouldBe(2);
+            missingColors.ShouldContain("Blue");
+            missingColors.ShouldContain("White");
+            missingColors.ShouldNotContain("Red");
+            missingColors.ShouldNotContain("Green");
         }
 
 
@@ -56,11 +56,11 @@ namespace DavidBerry.Framework.Tests.Util
             var missingItems = cars.WhereNotExists(colors, (x, y) => x.Color == y).ToList();
 
             // Assert
-            missingItems.Count.Should().Be(2);
-            missingItems.Should().Contain(c => c.Color == "Silver"); // Has a silver car
-            missingItems.Should().Contain(c => c.Color == "Yellow");  // Has a yellow car
-            missingItems.Should().NotContain(c => c.Color == "Red"); // No Red Cars
-            missingItems.Should().NotContain(c => c.Color == "Green");  // No Green Cars
+            missingItems.Count.ShouldBe(2);
+            missingItems.ShouldContain(c => c.Color == "Silver"); // Has a silver car
+            missingItems.ShouldContain(c => c.Color == "Yellow");  // Has a yellow car
+            missingItems.ShouldNotContain(c => c.Color == "Red"); // No Red Cars
+            missingItems.ShouldNotContain(c => c.Color == "Green");  // No Green Cars
         }
 
 
@@ -82,9 +82,9 @@ namespace DavidBerry.Framework.Tests.Util
             var missingItems = colors.WhereNotExists(cars, (x, y) => x == y.Color).ToList();
 
             // Assert
-            missingItems.Count.Should().Be(2);
-            missingItems.Should().Contain("White"); // There are no white cars
-            missingItems.Should().Contain("Blue"); // There are no blue cars
+            missingItems.Count.ShouldBe(2);
+            missingItems.ShouldContain("White"); // There are no white cars
+            missingItems.ShouldContain("Blue"); // There are no blue cars
         }
 
 
@@ -107,12 +107,12 @@ namespace DavidBerry.Framework.Tests.Util
             var matchingItems = cars.WhereExists(colors, (x, y) => x.Color == y).ToList();
 
             // Assert
-            matchingItems.Count.Should().Be(2);
-            matchingItems.Should().NotContain(car => car.Color == "Silver"); // Silver is not in the color list
-            matchingItems.Should().NotContain(car => car.Color == "Yellow"); // Yellow is not in the color list
+            matchingItems.Count.ShouldBe(2);
+            matchingItems.ShouldNotContain(car => car.Color == "Silver"); // Silver is not in the color list
+            matchingItems.ShouldNotContain(car => car.Color == "Yellow"); // Yellow is not in the color list
 
-            matchingItems.Should().Contain(car => car.Color == "Red", "A red car is in the list and red is in the list of colors");
-            matchingItems.Should().Contain(car => car.Color == "Green", "A green car is in the list and green is in the list of colors");
+            matchingItems.ShouldContain(car => car.Color == "Red", "A red car is in the list and red is in the list of colors");
+            matchingItems.ShouldContain(car => car.Color == "Green", "A green car is in the list and green is in the list of colors");
         }
 
 
@@ -134,13 +134,13 @@ namespace DavidBerry.Framework.Tests.Util
             var matchingItems = colors.WhereExists(cars, (x, y) => x == y.Color).ToList();
 
             // Assert
-            matchingItems.Count.Should().Be(2);
+            matchingItems.Count.ShouldBe(2);
 
-            matchingItems.Should().Contain("Red", "A red car is in the list and red is in the list of colors");
-            matchingItems.Should().Contain("Green", "A green car is in the list and green is in the list of colors");
+            matchingItems.ShouldContain("Red", "A red car is in the list and red is in the list of colors");
+            matchingItems.ShouldContain("Green", "A green car is in the list and green is in the list of colors");
 
-            matchingItems.Should().NotContain("Blue", "because there are no Blue cars");
-            matchingItems.Should().NotContain("White", "because there are no white cars");
+            matchingItems.ShouldNotContain("Blue", "because there are no Blue cars");
+            matchingItems.ShouldNotContain("White", "because there are no white cars");
         }
 
 

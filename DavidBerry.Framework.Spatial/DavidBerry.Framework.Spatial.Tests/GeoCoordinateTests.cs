@@ -1,6 +1,6 @@
 using System;
 using Xunit;
-using FluentAssertions;
+using Shouldly;
 using UnitsNet.Units;
 using DavidBerry.Framework.Spatial;
 
@@ -22,13 +22,13 @@ namespace DavidBerry.Framework.Spatial.Tests
         {
             GeoCoordinate p = new GeoCoordinate(latitude, longitude);
 
-            p.Should().NotBeNull();
+            p.ShouldNotBeNull();
 
-            p.Latitude.Unit.Should().Be(AngleUnit.Degree);
-            p.Latitude.Value.Should().Be(latitude);
+            p.Latitude.Unit.ShouldBe(AngleUnit.Degree);
+            p.Latitude.Value.ShouldBe(latitude);
 
-            p.Longitude.Unit.Should().Be(AngleUnit.Degree);
-            p.Longitude.Value.Should().Be(longitude);
+            p.Longitude.Unit.ShouldBe(AngleUnit.Degree);
+            p.Longitude.Value.ShouldBe(longitude);
         }
 
 

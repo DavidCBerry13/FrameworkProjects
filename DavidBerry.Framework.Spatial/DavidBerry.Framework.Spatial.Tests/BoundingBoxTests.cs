@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,17 +18,17 @@ namespace DavidBerry.Framework.Spatial.Tests
             BoundingBox box = new BoundingBox(topLeftLatitude, topLeftLongitude,
                 bottomRightLatitude, bottomRightLongitude);
 
-            box.PointOne.Latitude.Value.Should().Be(topLeftLatitude);
-            box.PointOne.Longitude.Value.Should().Be(topLeftLongitude);
-            box.PointTwo.Latitude.Value.Should().Be(bottomRightLatitude);
-            box.PointTwo.Longitude.Value.Should().Be(bottomRightLongitude);
+            box.PointOne.Latitude.Value.ShouldBe(topLeftLatitude);
+            box.PointOne.Longitude.Value.ShouldBe(topLeftLongitude);
+            box.PointTwo.Latitude.Value.ShouldBe(bottomRightLatitude);
+            box.PointTwo.Longitude.Value.ShouldBe(bottomRightLongitude);
 
         }
 
         [Fact]
         public void ConsturctorRejectsPointsThatAreTheSame()
         {
-            var exception = Assert.Throws<ArgumentException>(() => new BoundingBox(41.93301, -87.62007, 41.93301, -87.62007));            
+            var exception = Assert.Throws<ArgumentException>(() => new BoundingBox(41.93301, -87.62007, 41.93301, -87.62007));
         }
 
     }

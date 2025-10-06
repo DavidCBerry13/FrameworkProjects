@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,15 +17,15 @@ namespace DavidBerry.Framework.Spatial.Tests
         [InlineData(13.7994072, 145.112915, 13.1022175, 144.4647218, 13.7994072, 145.112915)]
         [InlineData(-31.6244855, 116.239023, -32.4556424, 115.6840483, -31.6244855, 116.239023)]
         [InlineData(-30.0852149, -53.0779284, -35.1558001, -58.4913609, -30.0852149, -53.0779284)]
-        public void ValidateNortheastExtensionMethod(double pointOneLatitude, double pointOneLongitude, 
+        public void ValidateNortheastExtensionMethod(double pointOneLatitude, double pointOneLongitude,
             double pointTwoLatitude, double pointTwoLongitude, double expectedLatitude, double expectedLongitude)
         {
             BoundingBox box = new BoundingBox(pointOneLatitude, pointOneLongitude, pointTwoLatitude, pointTwoLongitude);
 
             var northeastPoint = box.Northeast();
 
-            northeastPoint.Latitude.Value.Should().BeApproximately(expectedLatitude, 0.0001);
-            northeastPoint.Longitude.Value.Should().BeApproximately(expectedLongitude, 0.0001);
+            northeastPoint.Latitude.Value.ShouldBe(expectedLatitude, 0.0001);
+            northeastPoint.Longitude.Value.ShouldBe(expectedLongitude, 0.0001);
         }
 
 
@@ -42,8 +42,8 @@ namespace DavidBerry.Framework.Spatial.Tests
 
             var northwestPoint = box.Northwest();
 
-            northwestPoint.Latitude.Value.Should().BeApproximately(expectedLatitude, 0.0001);
-            northwestPoint.Longitude.Value.Should().BeApproximately(expectedLongitude, 0.0001);
+            northwestPoint.Latitude.Value.ShouldBe(expectedLatitude, 0.0001);
+            northwestPoint.Longitude.Value.ShouldBe(expectedLongitude, 0.0001);
         }
 
 
@@ -60,8 +60,8 @@ namespace DavidBerry.Framework.Spatial.Tests
 
             var southwestPoint = box.Southwest();
 
-            southwestPoint.Latitude.Value.Should().BeApproximately(expectedLatitude, 0.0001);
-            southwestPoint.Longitude.Value.Should().BeApproximately(expectedLongitude, 0.0001);
+            southwestPoint.Latitude.Value.ShouldBe(expectedLatitude, 0.0001);
+            southwestPoint.Longitude.Value.ShouldBe(expectedLongitude, 0.0001);
         }
 
 
@@ -79,8 +79,8 @@ namespace DavidBerry.Framework.Spatial.Tests
 
             var southeastPoint = box.Southeast();
 
-            southeastPoint.Latitude.Value.Should().BeApproximately(expectedLatitude, 0.0001);
-            southeastPoint.Longitude.Value.Should().BeApproximately(expectedLongitude, 0.0001);
+            southeastPoint.Latitude.Value.ShouldBe(expectedLatitude, 0.0001);
+            southeastPoint.Longitude.Value.ShouldBe(expectedLongitude, 0.0001);
         }
 
 
@@ -97,7 +97,7 @@ namespace DavidBerry.Framework.Spatial.Tests
 
             var contains = box.ContainsPoint(testPointLatitude, testPointLongitude);
 
-            contains.Should().BeTrue();
+            contains.ShouldBeTrue();
         }
 
 
@@ -111,7 +111,7 @@ namespace DavidBerry.Framework.Spatial.Tests
 
             var contains = box.ContainsPoint(testPointLatitude, testPointLongitude);
 
-            contains.Should().BeFalse();
+            contains.ShouldBeFalse();
         }
 
     }
