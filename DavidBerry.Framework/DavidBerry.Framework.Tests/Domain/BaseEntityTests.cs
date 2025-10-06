@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
-using FluentAssertions;
+using Shouldly;
 using DavidBerry.Framework.Domain;
 
 namespace DavidBerry.Framework.Tests.Domain
@@ -20,7 +20,7 @@ namespace DavidBerry.Framework.Tests.Domain
             entity.SetObjectModified();
 
             // Assert
-            entity.ObjectState.Should().Be(ObjectState.NEW);
+            entity.ObjectState.ShouldBe(ObjectState.NEW);
         }
 
         [Fact]
@@ -33,7 +33,7 @@ namespace DavidBerry.Framework.Tests.Domain
             entity.SetObjectModified();
 
             // Assert
-            entity.ObjectState.Should().Be(ObjectState.MODIFIED);
+            entity.ObjectState.ShouldBe(ObjectState.MODIFIED);
         }
 
         [Fact]
@@ -46,7 +46,7 @@ namespace DavidBerry.Framework.Tests.Domain
             entity.SetObjectDeleted();
 
             // Assert
-            entity.ObjectState.Should().Be(ObjectState.DELETED);
+            entity.ObjectState.ShouldBe(ObjectState.DELETED);
         }
 
 

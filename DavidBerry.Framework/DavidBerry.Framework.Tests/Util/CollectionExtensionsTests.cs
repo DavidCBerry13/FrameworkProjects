@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using DavidBerry.Framework.Util;
-using FluentAssertions;
+using Shouldly;
 using Xunit;
 
 namespace DavidBerry.Framework.Tests.Util
@@ -16,7 +16,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var empty = states.IsNullOrEmpty();
 
-            empty.Should().BeTrue();
+            empty.ShouldBeTrue();
         }
 
         [Fact]
@@ -26,7 +26,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var empty = states.IsNullOrEmpty();
 
-            empty.Should().BeTrue();
+            empty.ShouldBeTrue();
         }
 
         [Fact]
@@ -36,7 +36,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var empty = states.IsNullOrEmpty();
 
-            empty.Should().BeFalse();
+            empty.ShouldBeFalse();
         }
 
         [Fact]
@@ -46,7 +46,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var empty = states.IsNullOrEmpty();
 
-            empty.Should().BeTrue();
+            empty.ShouldBeTrue();
         }
 
 
@@ -57,7 +57,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var empty = states.IsNullOrEmpty();
 
-            empty.Should().BeTrue();
+            empty.ShouldBeTrue();
         }
 
 
@@ -75,7 +75,7 @@ namespace DavidBerry.Framework.Tests.Util
 
             var empty = states.IsNullOrEmpty();
 
-            empty.Should().BeFalse();
+            empty.ShouldBeFalse();
         }
 
     }

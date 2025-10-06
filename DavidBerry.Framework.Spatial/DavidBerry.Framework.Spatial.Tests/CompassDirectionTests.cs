@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
-using FluentAssertions;
+using Shouldly;
 using System.Linq;
 
 namespace DavidBerry.Framework.Spatial.Tests
@@ -33,7 +33,7 @@ namespace DavidBerry.Framework.Spatial.Tests
             var direction = CompassDirection.GetDirection(bearing);
 
             // Assert
-            direction.Abbreviation.Should().Be(expectedDirection,
+            direction.Abbreviation.ShouldBe(expectedDirection,
                 $"Expected direction of {expectedDirection} but got {direction.Abbreviation} for bearing {bearing}");
         }
 
@@ -53,7 +53,7 @@ namespace DavidBerry.Framework.Spatial.Tests
             var direction = CompassDirection.GetDirection(bearing);
 
             // Assert
-            direction.Abbreviation.Should().Be(expectedDirection,
+            direction.Abbreviation.ShouldBe(expectedDirection,
                 $"Expected direction of {expectedDirection} but got {direction.Abbreviation} for bearing {bearing}");
         }
 
@@ -73,7 +73,7 @@ namespace DavidBerry.Framework.Spatial.Tests
             var direction = CompassDirection.GetDirection(bearing);
 
             // Assert
-            direction.Abbreviation.Should().Be(expectedDirection,
+            direction.Abbreviation.ShouldBe(expectedDirection,
                 $"Expected direction of {expectedDirection} but got {direction.Abbreviation} for bearing {bearing}");
         }
 
@@ -95,36 +95,36 @@ namespace DavidBerry.Framework.Spatial.Tests
         {
             var result = CompassDirection.NORTH.Equals(null);
 
-            result.Should().BeFalse();
+            result.ShouldBeFalse();
         }
 
 
         [Fact]
         public void CheckAllDirectionsEqualThemselves()
         {
-            CompassDirection.NORTH.Equals(CompassDirection.NORTH).Should().BeTrue();
-            CompassDirection.NORTH_NORTHEAST.Equals(CompassDirection.NORTH_NORTHEAST).Should().BeTrue();
-            CompassDirection.NORTHEAST.Equals(CompassDirection.NORTHEAST).Should().BeTrue();
-            CompassDirection.EAST_NORTHEAST.Equals(CompassDirection.EAST_NORTHEAST).Should().BeTrue();
-            CompassDirection.EAST.Equals(CompassDirection.EAST).Should().BeTrue();
-            CompassDirection.EAST_SOUTHEAST.Equals(CompassDirection.EAST_SOUTHEAST).Should().BeTrue();
-            CompassDirection.SOUTHEAST.Equals(CompassDirection.SOUTHEAST).Should().BeTrue();
-            CompassDirection.SOUTH_SOUTHEAST.Equals(CompassDirection.SOUTH_SOUTHEAST).Should().BeTrue();
-            CompassDirection.SOUTH.Equals(CompassDirection.SOUTH).Should().BeTrue();
-            CompassDirection.SOUTH_SOUTHWEST.Equals(CompassDirection.SOUTH_SOUTHWEST).Should().BeTrue();
-            CompassDirection.SOUTHWEST.Equals(CompassDirection.SOUTHWEST).Should().BeTrue();
-            CompassDirection.WEST_SOUTHWEST.Equals(CompassDirection.WEST_SOUTHWEST).Should().BeTrue();
-            CompassDirection.WEST.Equals(CompassDirection.WEST).Should().BeTrue();
-            CompassDirection.WEST_NORTHWEST.Equals(CompassDirection.WEST_NORTHWEST).Should().BeTrue();
-            CompassDirection.NORTHWEST.Equals(CompassDirection.NORTHWEST).Should().BeTrue();
-            CompassDirection.NORTH_NORTHWEST.Equals(CompassDirection.NORTH_NORTHWEST).Should().BeTrue();
+            CompassDirection.NORTH.Equals(CompassDirection.NORTH).ShouldBeTrue();
+            CompassDirection.NORTH_NORTHEAST.Equals(CompassDirection.NORTH_NORTHEAST).ShouldBeTrue();
+            CompassDirection.NORTHEAST.Equals(CompassDirection.NORTHEAST).ShouldBeTrue();
+            CompassDirection.EAST_NORTHEAST.Equals(CompassDirection.EAST_NORTHEAST).ShouldBeTrue();
+            CompassDirection.EAST.Equals(CompassDirection.EAST).ShouldBeTrue();
+            CompassDirection.EAST_SOUTHEAST.Equals(CompassDirection.EAST_SOUTHEAST).ShouldBeTrue();
+            CompassDirection.SOUTHEAST.Equals(CompassDirection.SOUTHEAST).ShouldBeTrue();
+            CompassDirection.SOUTH_SOUTHEAST.Equals(CompassDirection.SOUTH_SOUTHEAST).ShouldBeTrue();
+            CompassDirection.SOUTH.Equals(CompassDirection.SOUTH).ShouldBeTrue();
+            CompassDirection.SOUTH_SOUTHWEST.Equals(CompassDirection.SOUTH_SOUTHWEST).ShouldBeTrue();
+            CompassDirection.SOUTHWEST.Equals(CompassDirection.SOUTHWEST).ShouldBeTrue();
+            CompassDirection.WEST_SOUTHWEST.Equals(CompassDirection.WEST_SOUTHWEST).ShouldBeTrue();
+            CompassDirection.WEST.Equals(CompassDirection.WEST).ShouldBeTrue();
+            CompassDirection.WEST_NORTHWEST.Equals(CompassDirection.WEST_NORTHWEST).ShouldBeTrue();
+            CompassDirection.NORTHWEST.Equals(CompassDirection.NORTHWEST).ShouldBeTrue();
+            CompassDirection.NORTH_NORTHWEST.Equals(CompassDirection.NORTH_NORTHWEST).ShouldBeTrue();
         }
 
 
         [Fact]
         public void CheckDirectionsThatDoNotEqualReturnFalse()
         {
-            CompassDirection.NORTH.Equals(CompassDirection.EAST).Should().BeFalse();
+            CompassDirection.NORTH.Equals(CompassDirection.EAST).ShouldBeFalse();
         }
 
         [Fact]
@@ -135,7 +135,7 @@ namespace DavidBerry.Framework.Spatial.Tests
                 .Distinct()
                 .Count();
 
-            uniquePoints.Should().Be(CompassDirection.COMPASS_POINTS.Length);
+            uniquePoints.ShouldBe(CompassDirection.COMPASS_POINTS.Length);
         }
 
 
@@ -147,7 +147,7 @@ namespace DavidBerry.Framework.Spatial.Tests
                 .Distinct()
                 .Count();
 
-            uniqueHashCodes.Should().Be(CompassDirection.COMPASS_POINTS.Length);
+            uniqueHashCodes.ShouldBe(CompassDirection.COMPASS_POINTS.Length);
         }
 
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
-using FluentAssertions;
+using Shouldly;
 using DavidBerry.Framework.Util;
 using DavidBerry.Framework.Spatial.Geocoding;
 using DavidBerry.Framework.Spatial.Geocoding.Google;
@@ -12,6 +12,7 @@ using System.Linq;
 using RestSharp;
 using Moq;
 using System.Threading;
+using Shouldly.ShouldlyExtensionMethods;
 
 namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
 {
@@ -25,39 +26,39 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
 
             var googleResponse = JsonConvert.DeserializeObject<GoogleGeocodingResponse>(json);
 
-            googleResponse.Status.Should().Be("OK");
-            googleResponse.ErrorMessage.Should().BeNull();
-            googleResponse.Results.Should().HaveCount(1);
+            googleResponse.Status.ShouldBe("OK");
+            googleResponse.ErrorMessage.ShouldBeNull();
+            googleResponse.Results.Count().ShouldBe(1);
 
-            googleResponse.Results[0].AddressComponents.First(c => c.ValueTypes.Contains("street_number")).ShortValue.Should().Be("1600");
-            googleResponse.Results[0].AddressComponents.First(c => c.ValueTypes.Contains("street_number")).LongValue.Should().Be("1600");
+            googleResponse.Results[0].AddressComponents.First(c => c.ValueTypes.Contains("street_number")).ShortValue.ShouldBe("1600");
+            googleResponse.Results[0].AddressComponents.First(c => c.ValueTypes.Contains("street_number")).LongValue.ShouldBe("1600");
 
-            googleResponse.Results[0].AddressComponents.First(c => c.ValueTypes.Contains("route")).ShortValue.Should().Be("Amphitheatre Pkwy");
-            googleResponse.Results[0].AddressComponents.First(c => c.ValueTypes.Contains("route")).LongValue.Should().Be("Amphitheatre Pkwy");
+            googleResponse.Results[0].AddressComponents.First(c => c.ValueTypes.Contains("route")).ShortValue.ShouldBe("Amphitheatre Pkwy");
+            googleResponse.Results[0].AddressComponents.First(c => c.ValueTypes.Contains("route")).LongValue.ShouldBe("Amphitheatre Pkwy");
 
-            googleResponse.Results[0].AddressComponents.First(c => c.ValueTypes.Contains("locality")).ShortValue.Should().Be("Mountain View");
-            googleResponse.Results[0].AddressComponents.First(c => c.ValueTypes.Contains("locality")).LongValue.Should().Be("Mountain View");
+            googleResponse.Results[0].AddressComponents.First(c => c.ValueTypes.Contains("locality")).ShortValue.ShouldBe("Mountain View");
+            googleResponse.Results[0].AddressComponents.First(c => c.ValueTypes.Contains("locality")).LongValue.ShouldBe("Mountain View");
 
-            googleResponse.Results[0].AddressComponents.First(c => c.ValueTypes.Contains("administrative_area_level_1")).ShortValue.Should().Be("CA");
-            googleResponse.Results[0].AddressComponents.First(c => c.ValueTypes.Contains("administrative_area_level_1")).LongValue.Should().Be("California");
+            googleResponse.Results[0].AddressComponents.First(c => c.ValueTypes.Contains("administrative_area_level_1")).ShortValue.ShouldBe("CA");
+            googleResponse.Results[0].AddressComponents.First(c => c.ValueTypes.Contains("administrative_area_level_1")).LongValue.ShouldBe("California");
 
-            googleResponse.Results[0].AddressComponents.First(c => c.ValueTypes.Contains("country")).ShortValue.Should().Be("US");
-            googleResponse.Results[0].AddressComponents.First(c => c.ValueTypes.Contains("country")).LongValue.Should().Be("United States");
+            googleResponse.Results[0].AddressComponents.First(c => c.ValueTypes.Contains("country")).ShortValue.ShouldBe("US");
+            googleResponse.Results[0].AddressComponents.First(c => c.ValueTypes.Contains("country")).LongValue.ShouldBe("United States");
 
-            googleResponse.Results[0].AddressComponents.First(c => c.ValueTypes.Contains("postal_code")).ShortValue.Should().Be("94043");
-            googleResponse.Results[0].AddressComponents.First(c => c.ValueTypes.Contains("postal_code")).LongValue.Should().Be("94043");
+            googleResponse.Results[0].AddressComponents.First(c => c.ValueTypes.Contains("postal_code")).ShortValue.ShouldBe("94043");
+            googleResponse.Results[0].AddressComponents.First(c => c.ValueTypes.Contains("postal_code")).LongValue.ShouldBe("94043");
 
-            googleResponse.Results[0].FormattedAddress.Should().Be("1600 Amphitheatre Parkway, Mountain View, CA 94043, USA");
+            googleResponse.Results[0].FormattedAddress.ShouldBe("1600 Amphitheatre Parkway, Mountain View, CA 94043, USA");
 
-            googleResponse.Results[0].Geometry.Location.Latitude.Should().Be(37.4224764);
-            googleResponse.Results[0].Geometry.Location.Longitude.Should().Be(-122.0842499);
-            googleResponse.Results[0].Geometry.LocationType.Should().Be("ROOFTOP");
-            googleResponse.Results[0].Geometry.Viewport.NortheastPoint.Latitude.Should().Be(37.4238253802915);
-            googleResponse.Results[0].Geometry.Viewport.NortheastPoint.Longitude.Should().Be(-122.0829009197085);
-            googleResponse.Results[0].Geometry.Viewport.SouthwestPoint.Latitude.Should().Be(37.4211274197085);
-            googleResponse.Results[0].Geometry.Viewport.SouthwestPoint.Longitude.Should().Be(-122.0855988802915);
+            googleResponse.Results[0].Geometry.Location.Latitude.ShouldBe(37.4224764);
+            googleResponse.Results[0].Geometry.Location.Longitude.ShouldBe(-122.0842499);
+            googleResponse.Results[0].Geometry.LocationType.ShouldBe("ROOFTOP");
+            googleResponse.Results[0].Geometry.Viewport.NortheastPoint.Latitude.ShouldBe(37.4238253802915);
+            googleResponse.Results[0].Geometry.Viewport.NortheastPoint.Longitude.ShouldBe(-122.0829009197085);
+            googleResponse.Results[0].Geometry.Viewport.SouthwestPoint.Latitude.ShouldBe(37.4211274197085);
+            googleResponse.Results[0].Geometry.Viewport.SouthwestPoint.Longitude.ShouldBe(-122.0855988802915);
 
-            googleResponse.Results[0].GoogleMapsPlaceId.Should().Be("ChIJ2eUgeAK6j4ARbn5u_wAGqWA");
+            googleResponse.Results[0].GoogleMapsPlaceId.ShouldBe("ChIJ2eUgeAK6j4ARbn5u_wAGqWA");
         }
 
 
@@ -81,7 +82,7 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
             GoogleGeocodingService service = new GoogleGeocodingService("test", mockRestClient.Object);
             var result = service.GeocodeAddress(It.IsAny<string>());
 
-            result.Value[0].FormattedAddress.Should().Be("1600 Amphitheatre Parkway, Mountain View, CA 94043, USA");
+            result.Value[0].FormattedAddress.ShouldBe("1600 Amphitheatre Parkway, Mountain View, CA 94043, USA");
         }
 
         [Fact]
@@ -104,8 +105,8 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
             GoogleGeocodingService service = new GoogleGeocodingService("test", mockRestClient.Object);
             var result = service.GeocodeAddress(It.IsAny<string>());
 
-            result.Value[0].Location.Latitude.Value.Should().BeApproximately(37.422476, 0.00001);
-            result.Value[0].Location.Longitude.Value.Should().BeApproximately(-122.0842499, 0.00001);
+            result.Value[0].Location.Latitude.Value.ShouldBe(37.422476, 0.00001);
+            result.Value[0].Location.Longitude.Value.ShouldBe(-122.0842499, 0.00001);
         }
 
 
@@ -131,13 +132,13 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
             GoogleGeocodingService service = new GoogleGeocodingService("test", mockRestClient.Object);
             var result = service.GeocodeAddress(It.IsAny<string>());
 
-            result.IsSuccess.Should().BeTrue();
-            result.Value.Should().NotBeNull();
-            result.Value.Count.Should().Be(1);
+            result.IsSuccess.ShouldBeTrue();
+            result.Value.ShouldNotBeNull();
+            result.Value.Count.ShouldBe(1);
 
-            result.Value[0].FormattedAddress.Should().Be("1600 Amphitheatre Parkway, Mountain View, CA 94043, USA");
-            result.Value[0].Location.Latitude.Value.Should().BeApproximately(37.422476, 0.00001);
-            result.Value[0].Location.Longitude.Value.Should().BeApproximately(-122.0842499, 0.00001);
+            result.Value[0].FormattedAddress.ShouldBe("1600 Amphitheatre Parkway, Mountain View, CA 94043, USA");
+            result.Value[0].Location.Latitude.Value.ShouldBe(37.422476, 0.00001);
+            result.Value[0].Location.Longitude.Value.ShouldBe(-122.0842499, 0.00001);
         }
 
 
@@ -161,9 +162,9 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
             GoogleGeocodingService service = new GoogleGeocodingService("test", mockRestClient.Object);
             var result = service.GeocodeAddress(It.IsAny<string>());
 
-            result.IsSuccess.Should().BeFalse();
-            result.Error.Message.Should().Be("Call to Google geocoding service failed");
-            result.Value.Should().BeNull();
+            result.IsSuccess.ShouldBeFalse();
+            result.Error.Message.ShouldBe("Call to Google geocoding service failed");
+            result.Value.ShouldBeNull();
         }
 
 
@@ -187,21 +188,21 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
             GoogleGeocodingService service = new GoogleGeocodingService("test", mockRestClient.Object);
             var result = service.GeocodeAddress(It.IsAny<string>());
 
-            result.IsSuccess.Should().BeTrue();
-            result.Value.Should().NotBeNull();
-            result.Value.Count.Should().Be(1);
+            result.IsSuccess.ShouldBeTrue();
+            result.Value.ShouldNotBeNull();
+            result.Value.Count.ShouldBe(1);
 
-            result.Value[0].FormattedAddress.Should().Be("Boise, ID, USA");
-            result.Value[0].Location.Latitude.Value.Should().BeApproximately(43.6150186, 0.00001);
-            result.Value[0].Location.Longitude.Value.Should().BeApproximately(-116.2023137, 0.00001);
+            result.Value[0].FormattedAddress.ShouldBe("Boise, ID, USA");
+            result.Value[0].Location.Latitude.Value.ShouldBe(43.6150186, 0.00001);
+            result.Value[0].Location.Longitude.Value.ShouldBe(-116.2023137, 0.00001);
 
-            result.Value[0].LocationType.Should().Be(LocationType.CITY);
+            result.Value[0].LocationType.ShouldBe(LocationType.CITY);
 
-            result.Value[0].Viewport.PointOne.Latitude.Value.Should().BeApproximately(43.6898951, 0.00001);
-            result.Value[0].Viewport.PointOne.Longitude.Value.Should().BeApproximately(-116.1019091, 0.00001);
+            result.Value[0].Viewport.PointOne.Latitude.Value.ShouldBe(43.6898951, 0.00001);
+            result.Value[0].Viewport.PointOne.Longitude.Value.ShouldBe(-116.1019091, 0.00001);
 
-            result.Value[0].Viewport.PointTwo.Latitude.Value.Should().BeApproximately(43.511717, 0.00001);
-            result.Value[0].Viewport.PointTwo.Longitude.Value.Should().BeApproximately(-116.3658869, 0.00001);
+            result.Value[0].Viewport.PointTwo.Latitude.Value.ShouldBe(43.511717, 0.00001);
+            result.Value[0].Viewport.PointTwo.Longitude.Value.ShouldBe(-116.3658869, 0.00001);
         }
 
 
@@ -225,27 +226,27 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
             GoogleGeocodingService service = new GoogleGeocodingService("test", mockRestClient.Object);
             var result = service.GeocodeAddress(It.IsAny<string>());
 
-            result.IsSuccess.Should().BeTrue();
-            result.Value.Should().NotBeNull();
-            result.Value.Count.Should().Be(3);
+            result.IsSuccess.ShouldBeTrue();
+            result.Value.ShouldNotBeNull();
+            result.Value.Count.ShouldBe(3);
 
             // Springfield, MO
-            result.Value[0].FormattedAddress.Should().Be("Springfield, MO, USA");
-            result.Value[0].Location.Latitude.Value.Should().BeApproximately(37.2089572, 0.00001);
-            result.Value[0].Location.Longitude.Value.Should().BeApproximately(-93.29229889999999, 0.00001);
-            result.Value[0].LocationType.Should().HaveFlag(LocationType.CITY);
+            result.Value[0].FormattedAddress.ShouldBe("Springfield, MO, USA");
+            result.Value[0].Location.Latitude.Value.ShouldBe(37.2089572, 0.00001);
+            result.Value[0].Location.Longitude.Value.ShouldBe(-93.29229889999999, 0.00001);
+            result.Value[0].LocationType.ShouldHaveFlag(LocationType.CITY);
 
             // Springfield, IL
-            result.Value[1].FormattedAddress.Should().Be("Springfield, IL, USA");
-            result.Value[1].Location.Latitude.Value.Should().BeApproximately(39.781721300, 0.00001);
-            result.Value[1].Location.Longitude.Value.Should().BeApproximately(-89.6501481, 0.00001);
-            result.Value[1].LocationType.Should().HaveFlag(LocationType.CITY);
+            result.Value[1].FormattedAddress.ShouldBe("Springfield, IL, USA");
+            result.Value[1].Location.Latitude.Value.ShouldBe(39.781721300, 0.00001);
+            result.Value[1].Location.Longitude.Value.ShouldBe(-89.6501481, 0.00001);
+            result.Value[1].LocationType.ShouldHaveFlag(LocationType.CITY);
 
             // Springfield, OH
-            result.Value[2].FormattedAddress.Should().Be("Springfield, OH, USA");
-            result.Value[2].Location.Latitude.Value.Should().BeApproximately(39.9242266, 0.00001);
-            result.Value[2].Location.Longitude.Value.Should().BeApproximately(-83.80881711, 0.00001);
-            result.Value[2].LocationType.Should().HaveFlag(LocationType.CITY);
+            result.Value[2].FormattedAddress.ShouldBe("Springfield, OH, USA");
+            result.Value[2].Location.Latitude.Value.ShouldBe(39.9242266, 0.00001);
+            result.Value[2].Location.Longitude.Value.ShouldBe(-83.80881711, 0.00001);
+            result.Value[2].LocationType.ShouldHaveFlag(LocationType.CITY);
         }
 
 
@@ -270,21 +271,21 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
             GoogleGeocodingService service = new GoogleGeocodingService("test", mockRestClient.Object);
             var result = service.GeocodeAddress(It.IsAny<string>());
 
-            result.IsSuccess.Should().BeTrue();
-            result.Value.Should().NotBeNull();
-            result.Value.Count.Should().Be(1);
+            result.IsSuccess.ShouldBeTrue();
+            result.Value.ShouldNotBeNull();
+            result.Value.Count.ShouldBe(1);
 
-            result.Value[0].FormattedAddress.Should().Be("Boise, ID 83702, USA");
-            result.Value[0].Location.Latitude.Value.Should().BeApproximately(43.6624385, 0.00001);
-            result.Value[0].Location.Longitude.Value.Should().BeApproximately(-116.1630431, 0.00001);
+            result.Value[0].FormattedAddress.ShouldBe("Boise, ID 83702, USA");
+            result.Value[0].Location.Latitude.Value.ShouldBe(43.6624385, 0.00001);
+            result.Value[0].Location.Longitude.Value.ShouldBe(-116.1630431, 0.00001);
 
-            result.Value[0].LocationType.Should().Be(LocationType.POSTAL_CODE);
+            result.Value[0].LocationType.ShouldBe(LocationType.POSTAL_CODE);
 
-            result.Value[0].Viewport.PointOne.Latitude.Value.Should().BeApproximately(43.7000229, 0.00001);
-            result.Value[0].Viewport.PointOne.Longitude.Value.Should().BeApproximately(-116.0941219, 0.00001);
+            result.Value[0].Viewport.PointOne.Latitude.Value.ShouldBe(43.7000229, 0.00001);
+            result.Value[0].Viewport.PointOne.Longitude.Value.ShouldBe(-116.0941219, 0.00001);
 
-            result.Value[0].Viewport.PointTwo.Latitude.Value.Should().BeApproximately(43.6033878, 0.00001);
-            result.Value[0].Viewport.PointTwo.Longitude.Value.Should().BeApproximately(-116.2351669, 0.00001);
+            result.Value[0].Viewport.PointTwo.Latitude.Value.ShouldBe(43.6033878, 0.00001);
+            result.Value[0].Viewport.PointTwo.Longitude.Value.ShouldBe(-116.2351669, 0.00001);
         }
 
 
@@ -309,13 +310,13 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
             var result = service.GeocodeAddress(It.IsAny<string>());
 
             // Assert
-            result.Value.Count.Should().Be(1);
+            result.Value.Count.ShouldBe(1);
 
             // This is a convenience store, so all three of these should light up
-            result.Value[0].LocationType.Should().HaveFlag(LocationType.BUSINESS);
-            result.Value[0].LocationType.Should().HaveFlag(LocationType.GAS_STATION);
-            result.Value[0].LocationType.Should().HaveFlag(LocationType.STORE);
-            result.Value[0].LocationType.Should().NotHaveFlag(LocationType.POINT_OF_INTEREST);  // POI is assinged ot everything in Google, so it should screen out
+            result.Value[0].LocationType.ShouldHaveFlag(LocationType.BUSINESS);
+            result.Value[0].LocationType.ShouldHaveFlag(LocationType.GAS_STATION);
+            result.Value[0].LocationType.ShouldHaveFlag(LocationType.STORE);
+            result.Value[0].LocationType.ShouldNotHaveFlag(LocationType.POINT_OF_INTEREST);  // POI is assinged to everything in Google, so it should be screened out
         }
 
 
@@ -341,11 +342,11 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
             var result = service.GeocodeAddress(It.IsAny<string>());
 
             // Assert
-            result.Value.Count.Should().Be(1);
+            result.Value.Count.ShouldBe(1);
 
-            result.Value[0].LocationType.Should().HaveFlag(LocationType.BUSINESS);
-            result.Value[0].LocationType.Should().HaveFlag(LocationType.MUSEUM);
-            result.Value[0].LocationType.Should().HaveFlag(LocationType.POINT_OF_INTEREST);  // Based on the Tourist Attraction flag in Google
+            result.Value[0].LocationType.ShouldHaveFlag(LocationType.BUSINESS);
+            result.Value[0].LocationType.ShouldHaveFlag(LocationType.MUSEUM);
+            result.Value[0].LocationType.ShouldHaveFlag(LocationType.POINT_OF_INTEREST);  // Based on the Tourist Attraction flag in Google
         }
 
         [Fact]
@@ -369,8 +370,8 @@ namespace DavidBerry.Framework.Spatial.Tests.Geocoding.Google
             var result = service.GeocodeAddress(It.IsAny<string>());
 
             // Assert
-            result.Value.Count.Should().Be(1);
-            result.Value[0].LocationType.Should().HaveFlag(LocationType.AIRPORT);
+            result.Value.Count.ShouldBe(1);
+            result.Value[0].LocationType.ShouldHaveFlag(LocationType.AIRPORT);
         }
 
 
