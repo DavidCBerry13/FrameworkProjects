@@ -26,13 +26,38 @@ jobs:
     - name: Build solution
       run: dotnet build Framework-All.sln --configuration Release --no-restore
 
-    - name: Run tests with coverage
+    - name: Run tests for DavidBerry.Framework
       run: >
-        dotnet test Framework-All.sln \
+        dotnet test DavidBerry.Framework/DavidBerry.Framework.Tests/DavidBerry.Framework.Tests.csproj \
+          --configuration Release \
+          --no-build \        
+          --logger "trx;LogFileName=DavidBerry.Framework.Tests.trx" \
+          --results-directory TestResults/Framework \
+          --collect:"XPlat Code Coverage" \
+          /p:CollectCoverage=true \
+          /p:CoverletOutput=TestResults/coverage/ \
+          /p:CoverletOutputFormat=cobertura
+
+    - name: Run tests for DavidBerry.Framework.ApiUtil
+      run: >
+        dotnet test DavidBerry.Framework.ApiUtil/DavidBerry.Framework.ApiUtil.Tests/DavidBerry.Framework.ApiUtil.Tests.csproj \
           --configuration Release \
           --no-build \
-          --logger "trx;LogFileName=test-results.trx" \
-          --results-directory TestResults \
+          --logger "trx;LogFileName=DavidBerry.Framework.ApiUtil.Tests.trx" \
+          --results-directory TestResults/ApiUtil \
+          --collect:"XPlat Code Coverage" \
+          /p:CollectCoverage=true \
+          /p:CoverletOutput=TestResults/coverage/ \
+          /p:CoverletOutputFormat=cobertura          
+
+    - name: Run tests for DavidBerry.Framework.Spatial
+      run: >
+        dotnet test DavidBerry.Framework.Spatial/DavidBerry.Framework.Spatial.Tests/DavidBerry.Framework.Spatial.Tests.csproj \
+          --configuration Release \
+          --no-build \
+          --logger "trx;LogFileName=DavidBerry.Framework.Spatial.Tests.trx" \
+          --results-directory TestResults/Spatial \
+          --collect:"XPlat Code Coverage" \
           /p:CollectCoverage=true \
           /p:CoverletOutput=TestResults/coverage/ \
           /p:CoverletOutputFormat=cobertura
@@ -41,13 +66,13 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: test-results
-        path: TestResults/*.trx
+        path: TestResults/**.trx
 
     - name: Upload code coverage report
       uses: actions/upload-artifact@v4
       with:
         name: code-coverage-report
-        path: TestResults/coverage/coverage.cobertura.xml
+        path: TestResults/coverage/**/coverage.cobertura.xml
 
     - name: Publish Test Results
       uses: EnricoMi/publish-unit-test-result-action@v2
@@ -57,7 +82,7 @@ jobs:
     - name: Publish code coverage summary
       uses: irongut/CodeCoverageSummary@v1.3.0
       with:
-        filename: TestResults/coverage/coverage.cobertura.xml
+        filename: TestResults/coverage/**/coverage.cobertura.xml
         badge: true
         fail_below_min: false
         format: markdown
