@@ -42,13 +42,13 @@ jobs:
     - name: Upload Framework test results artifact
       uses: actions/upload-artifact@v4
       with:
-        name: test-results
+        name: framework-test-results
         path: TestResults/Framework/**.trx
 
     - name: Upload Framework code coverage report
       uses: actions/upload-artifact@v4
       with:
-        name: code-coverage-report
+        name: framework-code-coverage-report
         path: TestResults/Framework/**/coverage.cobertura.xml
 
     - name: Publish Framework Test Results
@@ -81,13 +81,13 @@ jobs:
     - name: Upload Framework.ApiUtil test results artifact
       uses: actions/upload-artifact@v4
       with:
-        name: test-results
+        name: framework-apiutil-test-results
         path: TestResults/ApiUtil/**.trx
 
     - name: Upload Framework.ApiUtil code coverage report
       uses: actions/upload-artifact@v4
       with:
-        name: code-coverage-report
+        name: framework-apiutil-code-coverage-report
         path: TestResults/ApiUtil/**/coverage.cobertura.xml
 
     - name: Publish ApiUtil Test Results
@@ -120,13 +120,13 @@ jobs:
     - name: Upload Framework.Spatial test results artifact
       uses: actions/upload-artifact@v4
       with:
-        name: test-results
+        name: framework-spatial-test-results
         path: TestResults/Spatial/**.trx
 
     - name: Upload Framework.Spatial code coverage report
       uses: actions/upload-artifact@v4
       with:
-        name: code-coverage-report
+        name: framework-spatial-code-coverage-report
         path: TestResults/Spatial/**/coverage.cobertura.xml
 
     - name: Publish Spatial Test Results
