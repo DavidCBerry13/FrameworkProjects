@@ -30,7 +30,7 @@ jobs:
       run: >
         dotnet test DavidBerry.Framework/DavidBerry.Framework.Tests/DavidBerry.Framework.Tests.csproj \
           --configuration Release \
-          --no-build \        
+          --no-build \
           --logger "trx;LogFileName=DavidBerry.Framework.Tests.trx" \
           --results-directory TestResults/Framework \
           --collect:"XPlat Code Coverage" \
