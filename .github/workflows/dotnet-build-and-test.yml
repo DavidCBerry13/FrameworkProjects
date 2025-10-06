@@ -55,6 +55,8 @@ jobs:
       uses: EnricoMi/publish-unit-test-result-action@v2
       with:
         files: TestResults/Framework/**.trx
+        check_name: "Framework Test Results"
+        comment_title: "Framework Test Results"
 
     - name: Publish Framework code coverage summary
       uses: irongut/CodeCoverageSummary@v1.3.0
@@ -94,6 +96,8 @@ jobs:
       uses: EnricoMi/publish-unit-test-result-action@v2
       with:
         files: TestResults/ApiUtil/**.trx
+        check_name: "ApiUtil Test Results"
+        comment_title: "ApiUtil Test Results"
 
     - name: Publish ApiUtil code coverage summary
       uses: irongut/CodeCoverageSummary@v1.3.0
@@ -133,6 +137,8 @@ jobs:
       uses: EnricoMi/publish-unit-test-result-action@v2
       with:
         files: TestResults/Spatial/**.trx
+        check_name: "Spatial Test Results"
+        comment_title: "Spatial Test Results"
 
     - name: Publish Spatial code coverage summary
       uses: irongut/CodeCoverageSummary@v1.3.0
