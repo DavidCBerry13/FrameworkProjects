@@ -14,6 +14,8 @@
 
   <ItemGroup>
     <None Remove="dotCover.Output.html" />
+    <None Remove="EmbeddedResources\dotnet-logo.png" />
+    <None Remove="EmbeddedResources\ExampleFile.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,6 +36,15 @@
 
   <ItemGroup>
     <DotNetCliToolReference Include="JetBrains.dotCover.DotNetCliTool" Version="2019.2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="EmbeddedResources\dotnet-logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EmbeddedResources\ExampleFile.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>  
   
   <ItemGroup>

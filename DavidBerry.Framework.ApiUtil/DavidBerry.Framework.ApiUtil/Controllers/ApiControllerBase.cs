@@ -97,7 +97,7 @@ namespace DavidBerry.Framework.ApiUtil.Controllers
         }
 
 
-        protected ActionResult CreateResponse<TEntity, TModel>(Result<TEntity> result, Func<TEntity, ActionResult> successFunction)
+        protected internal ActionResult CreateResponse<TEntity, TModel>(Result<TEntity> result, Func<TEntity, ActionResult> successFunction)
         {
             if (result.IsSuccess)
             {
@@ -108,7 +108,6 @@ namespace DavidBerry.Framework.ApiUtil.Controllers
                 return MapErrorResult<TEntity, TModel>(result);
             }
         }
-
 
         protected internal ActionResult MapErrorResult<TEntity, TModel>(Result result)
         {
@@ -126,7 +125,6 @@ namespace DavidBerry.Framework.ApiUtil.Controllers
                     return this.InternalServerError(new ApiMessageModel() { Message = "An unexpected error has occurred.  The error has been logged and is being investigated" });
             }
         }
-
 
         protected internal ActionResult MapErrorResult(Result result)
         {

@@ -217,5 +217,48 @@ public class StringExtensionsTests
         result.ShouldBe("Chicago Illinois");
     }
 
+
+    [Fact]
+    public void ToHexadecimalString_ProperlyConvertsByteArrayToHexadecimalString()
+    {
+        // Arrange
+        byte[] bytes = new byte[] { 0x43, 0x68, 0x69, 0x63, 0x61, 0x67, 0x6f, 0x20, 0x49, 0x6c, 0x6c, 0x69, 0x6e, 0x6f, 0x69, 0x73 };
+
+        // Act
+        var result = bytes.ToHexadecimalString();
+
+        // Asset
+        result.ShouldBe("4368696361676F20496C6C696E6F6973");
+    }
+
+    [Fact]
+    public void ConvertToString_ProperlyConvertsByteArrayToStringAndBack_WhenEncodingSpecified()
+    {
+        // Arrange
+        string originalString = "Chicago Illinois";
+        Encoding encoding = Encoding.UTF8;
+
+        // Act
+        byte[] byteArray = originalString.ToByteArray(encoding);
+        string convertedString = byteArray.ConvertToString(encoding);
+
+        // Asset
+        convertedString.ShouldBe(originalString);
+    }
+
+    [Fact]
+    public void ConvertToString_ProperlyConvertsByteArrayToStringAndBack_WhenDefaultUtf8EncodingUsed()
+    {
+        // Arrange
+        string originalString = "Chicago Illinois";
+        Encoding encoding = Encoding.UTF8;
+
+        // Act
+        byte[] byteArray = originalString.ToByteArray();
+        string convertedString = byteArray.ConvertToString();
+
+        // Asset
+        convertedString.ShouldBe(originalString);
+    }
 }
 

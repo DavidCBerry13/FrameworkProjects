@@ -16,6 +16,30 @@ namespace DavidBerry.Framework.Tests.Data
     public class IDataReaderExtensionsTests
     {
 
+        #region GetFieldType
+
+        [Fact]
+        public void GetFieldTypeBy_CallsGetFieldType_WithCorrectOrdinalColumn()
+        {
+            // Data
+            string columnName = "IsActive";
+            int ordinalPosition = 10;
+
+            // Arrange
+            Mock<IDataReader> mockDataReader = new Mock<IDataReader>();
+            mockDataReader.Setup(x => x.GetOrdinal(columnName)).Returns(ordinalPosition);
+            mockDataReader.Setup(x => x.GetFieldType(ordinalPosition)).Returns(typeof(string));
+
+            // Act
+            var result = mockDataReader.Object.GetFieldType(columnName);
+
+            // Assert
+            mockDataReader.Verify(x => x.GetFieldType(ordinalPosition), Times.Once);
+        }
+
+        #endregion
+
+
         #region GetBoolean
 
         [Theory()]
@@ -227,6 +251,216 @@ namespace DavidBerry.Framework.Tests.Data
         #endregion
 
 
+        #region GetChar
+
+        [Theory()]
+        [InlineData('A')]
+        [InlineData('B')]
+        public void GetCharByName_WorksAsExpected_WhenPassingColumnName(char value)
+        {
+            // Data
+            string columnName = "IsActive";
+            int ordinalPosition = 10;
+
+            // Arrange
+            Mock<IDataReader> mockDataReader = new Mock<IDataReader>();
+            mockDataReader.Setup(x => x.GetOrdinal(columnName)).Returns(ordinalPosition);
+            mockDataReader.Setup(x => x.GetChar(ordinalPosition)).Returns(value);
+
+            // Act
+            var result = mockDataReader.Object.GetChar(columnName);
+
+            // Assert
+            mockDataReader.Verify(x => x.GetChar(ordinalPosition), Times.Once);
+            result.ShouldBe(value);
+        }
+
+
+        [Theory()]
+        [InlineData('A')]
+        [InlineData('B')]
+        public void GetCharNullable_ReturnsValue_WhenValueNotNull(char value)
+        {
+            // Data
+            int ordinalPosition = 10;
+
+            // Arrange
+            Mock<IDataReader> mockDataReader = new Mock<IDataReader>();
+            mockDataReader.Setup(x => x.IsDBNull(ordinalPosition)).Returns(false);
+            mockDataReader.Setup(x => x.GetChar(ordinalPosition)).Returns(value);
+
+            // Act
+            var result = mockDataReader.Object.GetCharNullable(ordinalPosition);
+
+            // Assert
+            mockDataReader.Verify(x => x.GetChar(ordinalPosition), Times.Once);
+            result.ShouldBe(value);
+        }
+
+
+        [Fact]
+        public void GetCharNullable_ReturnsNull_WhenValueIsNull()
+        {
+            // Data
+            int ordinalPosition = 10;
+
+            // Arrange
+            Mock<IDataReader> mockDataReader = new Mock<IDataReader>();
+            mockDataReader.Setup(x => x.IsDBNull(ordinalPosition)).Returns(true);
+
+            // Act
+            var result = mockDataReader.Object.GetCharNullable(ordinalPosition);
+
+            // Assert
+            mockDataReader.Verify(x => x.GetChar(ordinalPosition), Times.Never);
+            result.ShouldBeNull();
+        }
+
+
+
+        [Theory()]
+        [InlineData('A')]
+        [InlineData('B')]
+        public void GetCharNullableByName_ReturnsValue_WhenValueIsNotNull(char value)
+        {
+            // Data
+            string columnName = "IsActive";
+            int ordinalPosition = 10;
+
+            // Arrange
+            Mock<IDataReader> mockDataReader = new Mock<IDataReader>();
+            mockDataReader.Setup(x => x.IsDBNull(ordinalPosition)).Returns(false);
+            mockDataReader.Setup(x => x.GetOrdinal(columnName)).Returns(ordinalPosition);
+            mockDataReader.Setup(x => x.GetChar(ordinalPosition)).Returns(value);
+
+            // Act
+            var result = mockDataReader.Object.GetCharNullable(columnName);
+
+            // Assert
+            mockDataReader.Verify(x => x.GetChar(ordinalPosition), Times.Once);
+            result.ShouldBe(value);
+        }
+
+
+        [Fact()]
+        public void GetCharNullableByName_ReturnsNull_WhenValueIsNull()
+        {
+            // Data
+            string columnName = "IsActive";
+            int ordinalPosition = 10;
+
+            // Arrange
+            Mock<IDataReader> mockDataReader = new Mock<IDataReader>();
+            mockDataReader.Setup(x => x.IsDBNull(ordinalPosition)).Returns(true);
+            mockDataReader.Setup(x => x.GetOrdinal(columnName)).Returns(ordinalPosition);
+
+            // Act
+            var result = mockDataReader.Object.GetCharNullable(columnName);
+
+            // Assert
+            mockDataReader.Verify(x => x.GetChar(ordinalPosition), Times.Never);
+            result.ShouldBeNull();
+        }
+
+
+        [Theory()]
+        [InlineData('A', 'X')]
+        [InlineData('B', 'Z')]
+        public void GetCharWithDefault_ReturnsValue_WhenValueIsNotNull(char databaseValue, char defaultValue)
+        {
+            // Data
+            int ordinalPosition = 10;
+
+            // Arrange
+            Mock<IDataReader> mockDataReader = new Mock<IDataReader>();
+            mockDataReader.Setup(x => x.IsDBNull(ordinalPosition)).Returns(false);
+            mockDataReader.Setup(x => x.GetChar(ordinalPosition)).Returns(databaseValue);
+
+            // Act
+            var result = mockDataReader.Object.GetCharWithDefault(ordinalPosition, defaultValue);
+
+            // Assert
+            mockDataReader.Verify(x => x.GetChar(ordinalPosition), Times.Once);
+            result.ShouldBe(databaseValue);
+            result.ShouldNotBe(defaultValue);
+        }
+
+
+        [Theory()]
+        [InlineData('A')]
+        [InlineData('B')]
+        public void GetCharWithDefault_ReturnsDefault_WhenValueIsNull(char defaultValue)
+        {
+            // Data
+            int ordinalPosition = 10;
+
+
+            // Arrange
+            Mock<IDataReader> mockDataReader = new Mock<IDataReader>();
+            mockDataReader.Setup(x => x.IsDBNull(ordinalPosition)).Returns(true);
+
+            // Act
+            var result = mockDataReader.Object.GetCharWithDefault(ordinalPosition, defaultValue);
+
+            // Assert
+            mockDataReader.Verify(x => x.GetChar(ordinalPosition), Times.Never);
+            result.ShouldBe(defaultValue);
+        }
+
+
+        [Theory()]
+        [InlineData('A', 'X')]
+        [InlineData('B', 'Y')]
+        public void GetCharWithDefaultByName_ReturnsValue_WhenValueIsNotNull(char databaseValue, char defaultValue)
+        {
+            // Data
+            string columnName = "IsActive";
+            int ordinalPosition = 10;
+
+            // Arrange
+            Mock<IDataReader> mockDataReader = new Mock<IDataReader>();
+            mockDataReader.Setup(x => x.IsDBNull(ordinalPosition)).Returns(false);
+            mockDataReader.Setup(x => x.GetChar(ordinalPosition)).Returns(databaseValue);
+            mockDataReader.Setup(x => x.GetOrdinal(columnName)).Returns(ordinalPosition);
+
+
+            // Act
+            var result = mockDataReader.Object.GetCharWithDefault(columnName, defaultValue);
+
+            // Assert
+            mockDataReader.Verify(x => x.GetChar(ordinalPosition), Times.Once);
+            result.ShouldBe(databaseValue);
+            result.ShouldNotBe(defaultValue);
+        }
+
+
+
+        [Theory()]
+        [InlineData('A')]
+        [InlineData('B')]
+        public void GetCharWithDefaultByName_ReturnsDefault_WhenValueIsNull(char defaultValue)
+        {
+            // Data
+            string columnName = "IsActive";
+            int ordinalPosition = 10;
+
+            // Arrange
+            Mock<IDataReader> mockDataReader = new Mock<IDataReader>();
+            mockDataReader.Setup(x => x.IsDBNull(ordinalPosition)).Returns(true);
+            mockDataReader.Setup(x => x.GetOrdinal(columnName)).Returns(ordinalPosition);
+
+
+            // Act
+            var result = mockDataReader.Object.GetCharWithDefault(columnName, defaultValue);
+
+            // Assert
+            mockDataReader.Verify(x => x.GetChar(ordinalPosition), Times.Never);
+            result.ShouldBe(defaultValue);
+        }
+
+
+
+        #endregion
 
 
         #region Int16
@@ -293,7 +527,6 @@ namespace DavidBerry.Framework.Tests.Data
             mockDataReader.Verify(x => x.GetInt16(ordinalPosition), Times.Never);
             result.ShouldBeNull();
         }
-
 
 
         [Theory()]
@@ -649,8 +882,6 @@ namespace DavidBerry.Framework.Tests.Data
         #endregion
 
 
-
-
         #region Int64
 
         [Theory()]
@@ -859,8 +1090,6 @@ namespace DavidBerry.Framework.Tests.Data
         }
 
         #endregion
-
-
 
 
         #region Float
@@ -1283,6 +1512,216 @@ namespace DavidBerry.Framework.Tests.Data
         #endregion
 
 
+        #region Decimal
+
+        [Theory()]
+        [InlineData(32.00)]
+        [InlineData(-46.50)]
+        public void GetDecimalByName_WorksAsExpected_WhenPassingColumnName(decimal value)
+        {
+            // Data
+            string columnName = "ColumnName";
+            int ordinalPosition = 10;
+
+            // Arrange
+            Mock<IDataReader> mockDataReader = new Mock<IDataReader>();
+            mockDataReader.Setup(x => x.GetOrdinal(columnName)).Returns(ordinalPosition);
+            mockDataReader.Setup(x => x.GetDecimal(ordinalPosition)).Returns(value);
+
+            // Act
+            var result = mockDataReader.Object.GetDecimal(columnName);
+
+            // Assert
+            mockDataReader.Verify(x => x.GetDecimal(ordinalPosition), Times.Once);
+            result.ShouldBe(value);
+        }
+
+
+        [Theory()]
+        [InlineData(342.00)]
+        [InlineData(-292.25)]
+        public void GetDecimalNullable_ReturnsValue_WhenValueNotNull(decimal value)
+        {
+            // Data
+            int ordinalPosition = 10;
+
+            // Arrange
+            Mock<IDataReader> mockDataReader = new Mock<IDataReader>();
+            mockDataReader.Setup(x => x.IsDBNull(ordinalPosition)).Returns(false);
+            mockDataReader.Setup(x => x.GetDecimal(ordinalPosition)).Returns(value);
+
+            // Act
+            var result = mockDataReader.Object.GetDecimalNullable(ordinalPosition);
+
+            // Assert
+            mockDataReader.Verify(x => x.GetDecimal(ordinalPosition), Times.Once);
+            result.ShouldBe(value);
+        }
+
+
+        [Fact]
+        public void GetDecimalNullable_ReturnsNull_WhenValueIsNull()
+        {
+            // Data
+            int ordinalPosition = 10;
+
+            // Arrange
+            Mock<IDataReader> mockDataReader = new Mock<IDataReader>();
+            mockDataReader.Setup(x => x.IsDBNull(ordinalPosition)).Returns(true);
+
+            // Act
+            var result = mockDataReader.Object.GetDecimalNullable(ordinalPosition);
+
+            // Assert
+            mockDataReader.Verify(x => x.GetDecimal(ordinalPosition), Times.Never);
+            result.ShouldBeNull();
+        }
+
+
+
+        [Theory()]
+        [InlineData(3782.00)]
+        [InlineData(-292.75)]
+        public void GetDecimalNullableByName_ReturnsValue_WhenValueIsNotNull(decimal value)
+        {
+            // Data
+            string columnName = "ColumnName";
+            int ordinalPosition = 10;
+
+            // Arrange
+            Mock<IDataReader> mockDataReader = new Mock<IDataReader>();
+            mockDataReader.Setup(x => x.IsDBNull(ordinalPosition)).Returns(false);
+            mockDataReader.Setup(x => x.GetOrdinal(columnName)).Returns(ordinalPosition);
+            mockDataReader.Setup(x => x.GetDecimal(ordinalPosition)).Returns(value);
+
+            // Act
+            var result = mockDataReader.Object.GetDecimalNullable(columnName);
+
+            // Assert
+            mockDataReader.Verify(x => x.GetDecimal(ordinalPosition), Times.Once);
+            result.ShouldBe(value);
+        }
+
+
+        [Fact()]
+        public void GetDecimalNullableByName_ReturnsNull_WhenValueIsNull()
+        {
+            // Data
+            string columnName = "IsActive";
+            int ordinalPosition = 10;
+
+            // Arrange
+            Mock<IDataReader> mockDataReader = new Mock<IDataReader>();
+            mockDataReader.Setup(x => x.IsDBNull(ordinalPosition)).Returns(true);
+            mockDataReader.Setup(x => x.GetOrdinal(columnName)).Returns(ordinalPosition);
+
+            // Act
+            var result = mockDataReader.Object.GetDecimalNullable(columnName);
+
+            // Assert
+            mockDataReader.Verify(x => x.GetDecimal(ordinalPosition), Times.Never);
+            result.ShouldBeNull();
+        }
+
+
+        [Theory()]
+        [InlineData(324.00, 0.00)]
+        [InlineData(0.50, 100.50)]
+        public void GetDecimalWithDefault_ReturnsValue_WhenValueIsNotNull(decimal databaseValue, decimal defaultValue)
+        {
+            // Data
+            int ordinalPosition = 10;
+
+            // Arrange
+            Mock<IDataReader> mockDataReader = new Mock<IDataReader>();
+            mockDataReader.Setup(x => x.IsDBNull(ordinalPosition)).Returns(false);
+            mockDataReader.Setup(x => x.GetDecimal(ordinalPosition)).Returns(databaseValue);
+
+            // Act
+            var result = mockDataReader.Object.GetDecimalWithDefault(ordinalPosition, defaultValue);
+
+            // Assert
+            mockDataReader.Verify(x => x.GetDecimal(ordinalPosition), Times.Once);
+            result.ShouldBe(databaseValue);
+            result.ShouldNotBe(defaultValue);
+        }
+
+
+        [Theory()]
+        [InlineData(0.00)]
+        [InlineData(100.550)]
+        public void GetDecimalWithDefault_ReturnsDefault_WhenValueIsNull(decimal defaultValue)
+        {
+            // Data
+            int ordinalPosition = 10;
+
+
+            // Arrange
+            Mock<IDataReader> mockDataReader = new Mock<IDataReader>();
+            mockDataReader.Setup(x => x.IsDBNull(ordinalPosition)).Returns(true);
+
+            // Act
+            var result = mockDataReader.Object.GetDecimalWithDefault(ordinalPosition, defaultValue);
+
+            // Assert
+            mockDataReader.Verify(x => x.GetDecimal(ordinalPosition), Times.Never);
+            result.ShouldBe(defaultValue);
+        }
+
+
+        [Theory()]
+        [InlineData(100.00, 0.00)]
+        [InlineData(0.125, 10.525)]
+        public void GetDecimalWithDefaultByName_ReturnsValue_WhenValueIsNotNull(decimal databaseValue, decimal defaultValue)
+        {
+            // Data
+            string columnName = "IsActive";
+            int ordinalPosition = 10;
+
+            // Arrange
+            Mock<IDataReader> mockDataReader = new Mock<IDataReader>();
+            mockDataReader.Setup(x => x.IsDBNull(ordinalPosition)).Returns(false);
+            mockDataReader.Setup(x => x.GetDecimal(ordinalPosition)).Returns(databaseValue);
+            mockDataReader.Setup(x => x.GetOrdinal(columnName)).Returns(ordinalPosition);
+
+
+            // Act
+            var result = mockDataReader.Object.GetDecimalWithDefault(columnName, defaultValue);
+
+            // Assert
+            mockDataReader.Verify(x => x.GetDecimal(ordinalPosition), Times.Once);
+            result.ShouldBe(databaseValue);
+            result.ShouldNotBe(defaultValue);
+        }
+
+
+
+        [Theory()]
+        [InlineData(0.00)]
+        [InlineData(100.50)]
+        public void GetDecimalWithDefaultByName_ReturnsDefault_WhenValueIsNull(decimal defaultValue)
+        {
+            // Data
+            string columnName = "IsActive";
+            int ordinalPosition = 10;
+
+            // Arrange
+            Mock<IDataReader> mockDataReader = new Mock<IDataReader>();
+            mockDataReader.Setup(x => x.IsDBNull(ordinalPosition)).Returns(true);
+            mockDataReader.Setup(x => x.GetOrdinal(columnName)).Returns(ordinalPosition);
+
+
+            // Act
+            var result = mockDataReader.Object.GetDecimalWithDefault(columnName, defaultValue);
+
+            // Assert
+            mockDataReader.Verify(x => x.GetDecimal(ordinalPosition), Times.Never);
+            result.ShouldBe(defaultValue);
+        }
+
+
+        #endregion
+
 
         #region String
 
@@ -1492,7 +1931,6 @@ namespace DavidBerry.Framework.Tests.Data
         }
 
         #endregion
-
 
 
         #region DateTime
