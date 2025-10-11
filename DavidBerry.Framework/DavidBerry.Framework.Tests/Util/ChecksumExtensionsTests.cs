@@ -123,5 +123,79 @@ namespace DavidBerry.Framework.Tests.Util
             checksum.ToHexadecimalString().ShouldBe("B8841178726F493E85FD41ED891CEC32B57781E707162ABF954C0D5E1C713262B84B37C68229017C698344CD8C7E0B4E7C1496DF7C303CFEA9F201A4DE9D12B2");
         }
 
+
+
+        [Fact]
+        public void GetChecksum_FromString_ReturnsCorrectChecksum_ForMd5()
+        {
+            // Arrange
+            string data = "Chicago Illinois";
+
+            // Act
+            var checksum = data.GetChecksum(ChecksumAlgorithm.MD5);
+
+            // Assert
+            checksum.ToHexadecimalString().ShouldBe("EBBD525CE0186C584C244F00E9B6688E");
+        }
+
+
+
+
+        [Fact]
+        public void GetChecksum_FromString_ReturnsCorrectChecksum_ForSha1()
+        {
+            // Arrange
+            string data = "Chicago Illinois";
+
+            // Act
+            var checksum = data.GetChecksum(ChecksumAlgorithm.SHA1);
+
+            // Assert
+            checksum.ToHexadecimalString().ShouldBe("5569151800725DBB8C7A7CA8205A307E84BD2F47");
+        }
+
+
+
+        [Fact]
+        public void GetChecksum_FromString_ReturnsCorrectChecksum_ForSha256()
+        {
+            // Arrange
+            string data = "Chicago Illinois";
+
+            // Act
+            var checksum = data.GetChecksum(ChecksumAlgorithm.SHA256);
+
+            // Assert
+            checksum.ToHexadecimalString().ShouldBe("7B9CE053B82E7C40721F62AAE31D2A96E3B671B989140B0467585DBD82E41F61");
+        }
+
+
+        [Fact]
+        public void GetChecksum_FromString_ReturnsCorrectChecksum_ForSha384()
+        {
+            // Arrange
+            string data = "Chicago Illinois";
+
+            // Act
+            var checksum = data.GetChecksum(ChecksumAlgorithm.SHA384);
+
+            // Assert
+            checksum.ToHexadecimalString().ShouldBe("40EF0273A8A18794FA1072211A5AA2DE1B256CE1EAC645BB642D8549C45F66F658FE924710D2651917A41626F1722889");
+        }
+
+        [Fact]
+        public void GetChecksum_FromString_ReturnsCorrectChecksum_ForSha512()
+        {
+            // Arrange
+            string data = "Chicago Illinois";
+
+            // Act
+            var checksum = data.GetChecksum(ChecksumAlgorithm.SHA512);
+
+            // Assert
+            checksum.ToHexadecimalString().ShouldBe("9C23ED95E64268269D2ABD8E3E5E4B9F1601CF3ABF0CE1679583D19434A3C4DAA3A55A1488BB681DA844CC46BC0CFB7A0DBA8D8DF8BC84812854EFE79BA4933A");
+        }
+
+
     }
 }
