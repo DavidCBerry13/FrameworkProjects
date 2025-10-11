@@ -41,7 +41,7 @@ namespace DavidBerry.Framework.ApiUtil.Controllers
         /// <typeparam name="TObject"></typeparam>
         /// <param name="concurrencyException"></param>
         /// <returns></returns>
-        protected virtual IActionResult CreateConcurrencyConflictErrorResult<TModel, TObject>(ConcurrencyException<TObject> concurrencyException)
+        protected internal virtual IActionResult CreateConcurrencyConflictErrorResult<TModel, TObject>(ConcurrencyException<TObject> concurrencyException)
         {
             var conflictingObject = concurrencyException.TypedObject;
             var model = _mapper.Map<TObject, TModel>(conflictingObject);
@@ -54,7 +54,7 @@ namespace DavidBerry.Framework.ApiUtil.Controllers
         }
 
 
-        protected virtual ActionResult CreateConcurrencyConflictErrorResult<TEntity, TModel>(ConcurrencyError<TEntity> concurrencyError)
+        protected internal virtual ActionResult CreateConcurrencyConflictErrorResult<TEntity, TModel>(ConcurrencyError<TEntity> concurrencyError)
         {
             var model = _mapper.Map<TEntity, TModel>(concurrencyError.ConflictingObject);
             var message = new ConcurrencyErrorModel<TModel>()
@@ -65,7 +65,7 @@ namespace DavidBerry.Framework.ApiUtil.Controllers
             return new ConflictObjectResult(message);
         }
 
-        protected virtual ActionResult CreateObjectExistsConflictErrorResult<TEntity, TModel>(ObjectAlreadyExistsError<TEntity> objectExistsError)
+        protected internal virtual ActionResult CreateObjectExistsConflictErrorResult<TEntity, TModel>(ObjectAlreadyExistsError<TEntity> objectExistsError)
         {
             var model = _mapper.Map<TEntity, TModel>(objectExistsError.ExistingObject);
             var message = new ConcurrencyErrorModel<TModel>()
@@ -97,7 +97,7 @@ namespace DavidBerry.Framework.ApiUtil.Controllers
         }
 
 
-        protected ActionResult CreateResponse<TEntity, TModel>(Result<TEntity> result, Func<TEntity, ActionResult> successFunction)
+        protected internal ActionResult CreateResponse<TEntity, TModel>(Result<TEntity> result, Func<TEntity, ActionResult> successFunction)
         {
             if (result.IsSuccess)
             {
@@ -108,7 +108,6 @@ namespace DavidBerry.Framework.ApiUtil.Controllers
                 return MapErrorResult<TEntity, TModel>(result);
             }
         }
-
 
         protected internal ActionResult MapErrorResult<TEntity, TModel>(Result result)
         {
@@ -126,7 +125,6 @@ namespace DavidBerry.Framework.ApiUtil.Controllers
                     return this.InternalServerError(new ApiMessageModel() { Message = "An unexpected error has occurred.  The error has been logged and is being investigated" });
             }
         }
-
 
         protected internal ActionResult MapErrorResult(Result result)
         {
