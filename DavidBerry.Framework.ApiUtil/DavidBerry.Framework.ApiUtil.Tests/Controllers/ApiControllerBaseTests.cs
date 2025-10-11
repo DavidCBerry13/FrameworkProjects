@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DavidBerry.Framework.ApiUtil.Controllers;
 using DavidBerry.Framework.ApiUtil.Models;
+using DavidBerry.Framework.Exceptions;
 using DavidBerry.Framework.Functional;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -237,5 +238,100 @@ public class ApiControllerBaseTests
         concurrencyErrorModel.CurrentObject.Name.ShouldBe("Concurrency Error");
     }
 
+
+    [Fact]
+    public void CreateConcurrencyConflictErrorResult_CreatesConflictObjectResult_WhenPassedConcurrencyException()
+    {
+        // Arrange
+        TestEntity testEntity = new TestEntity() { Id = 1, Name = "Concurrency Error" };
+
+        Mock<ILogger<ApiControllerBase>> mockLogger = new Mock<ILogger<ApiControllerBase>>();
+        Mock<IMapper> mockMapper = new Mock<IMapper>();
+        mockMapper.Setup(x => x.Map<TestEntity, TestModel>(testEntity)).Returns(new TestModel() { Id = 1, Name = "Concurrency Error" });
+
+        Mock<ApiControllerBase> mockController = new Mock<ApiControllerBase>(mockLogger.Object, mockMapper.Object);
+        mockController.CallBase = true;
+
+        var concurrencyException = new ConcurrencyException<TestEntity>("Error Message", testEntity);
+
+        // Act
+        var actionResult = mockController.Object.CreateConcurrencyConflictErrorResult<TestModel, TestEntity>(concurrencyException);
+
+        // Assert
+        actionResult.ShouldBeOfType<ConflictObjectResult>();
+
+        var conflictResult = actionResult as ConflictObjectResult;
+        conflictResult.Value.ShouldBeOfType<ConcurrencyErrorModel<TestModel>>();
+
+        var errorModel = conflictResult.Value as ConcurrencyErrorModel<TestModel>;
+        errorModel.Message.ShouldBe("Error Message");
+        errorModel.CurrentObject.ShouldBeOfType<TestModel>();
+        errorModel.CurrentObject.Id.ShouldBe(1);
+        errorModel.CurrentObject.Name.ShouldBe("Concurrency Error");
+    }
+
+
+    [Fact]
+    public void CreateConcurrencyConflictErrorResult_CreatesConflictObjectResult_WhenPassedConcurrencyError()
+    {
+        // Arrange
+        TestEntity testEntity = new TestEntity() { Id = 1, Name = "Concurrency Error" };
+
+        Mock<ILogger<ApiControllerBase>> mockLogger = new Mock<ILogger<ApiControllerBase>>();
+        Mock<IMapper> mockMapper = new Mock<IMapper>();
+        mockMapper.Setup(x => x.Map<TestEntity, TestModel>(testEntity)).Returns(new TestModel() { Id = 1, Name = "Concurrency Error" });
+
+        Mock<ApiControllerBase> mockController = new Mock<ApiControllerBase>(mockLogger.Object, mockMapper.Object);
+        mockController.CallBase = true;
+
+        var concurrencyError = new ConcurrencyError<TestEntity>("Error Message", testEntity);
+
+        // Act
+        var actionResult = mockController.Object.CreateConcurrencyConflictErrorResult<TestEntity, TestModel>(concurrencyError);
+
+        // Assert
+        actionResult.ShouldBeOfType<ConflictObjectResult>();
+
+        var conflictResult = actionResult as ConflictObjectResult;
+        conflictResult.Value.ShouldBeOfType<ConcurrencyErrorModel<TestModel>>();
+
+        var errorModel = conflictResult.Value as ConcurrencyErrorModel<TestModel>;
+        errorModel.Message.ShouldBe("Error Message");
+        errorModel.CurrentObject.ShouldBeOfType<TestModel>();
+        errorModel.CurrentObject.Id.ShouldBe(1);
+        errorModel.CurrentObject.Name.ShouldBe("Concurrency Error");
+    }
+
+
+    [Fact]
+    public void CreateObjectExistsConflictErrorResult_CreatesConflictObjectResult_WhenPassedObjectAlreadyExistsError()
+    {
+        // Arrange
+        TestEntity testEntity = new TestEntity() { Id = 1, Name = "Object Exists Error" };
+
+        Mock<ILogger<ApiControllerBase>> mockLogger = new Mock<ILogger<ApiControllerBase>>();
+        Mock<IMapper> mockMapper = new Mock<IMapper>();
+        mockMapper.Setup(x => x.Map<TestEntity, TestModel>(testEntity)).Returns(new TestModel() { Id = 1, Name = "Object Exists Error" });
+
+        Mock<ApiControllerBase> mockController = new Mock<ApiControllerBase>(mockLogger.Object, mockMapper.Object);
+        mockController.CallBase = true;
+
+        var objectExistsError = new ObjectAlreadyExistsError<TestEntity>("Error Message", testEntity);
+
+        // Act
+        var actionResult = mockController.Object.CreateObjectExistsConflictErrorResult<TestEntity, TestModel>(objectExistsError);
+
+        // Assert
+        actionResult.ShouldBeOfType<ConflictObjectResult>();
+
+        var conflictResult = actionResult as ConflictObjectResult;
+        conflictResult.Value.ShouldBeOfType<ConcurrencyErrorModel<TestModel>>();
+
+        var errorModel = conflictResult.Value as ConcurrencyErrorModel<TestModel>;
+        errorModel.Message.ShouldBe("Error Message");
+        errorModel.CurrentObject.ShouldBeOfType<TestModel>();
+        errorModel.CurrentObject.Id.ShouldBe(1);
+        errorModel.CurrentObject.Name.ShouldBe("Object Exists Error");
+    }
 
 }
