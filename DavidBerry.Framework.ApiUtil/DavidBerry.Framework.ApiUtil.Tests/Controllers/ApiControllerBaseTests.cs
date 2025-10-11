@@ -121,4 +121,121 @@ public class ApiControllerBaseTests
         apiMessageModel.Message.ShouldBe("Not found");
     }
 
+
+
+    [Fact]
+    public void MapErrorResult_ReturnsBadRequest_WhenResultIsFailure_WithInvalidDataError()
+    {
+        // Arrange
+        Mock<ILogger<ApiControllerBase>> mockLogger = new Mock<ILogger<ApiControllerBase>>();
+        Mock<IMapper> mockMapper = new Mock<IMapper>();
+        Mock<ApiControllerBase> mockController = new Mock<ApiControllerBase>(mockLogger.Object, mockMapper.Object);
+        mockController.CallBase = true;
+        Result result = Result.Failure(new InvalidDataError("Invalid data"));
+
+        // Act
+        var actionResult = mockController.Object.MapErrorResult<TestEntity, TestModel>(result);
+
+        // Assert
+        actionResult.ShouldBeOfType<BadRequestObjectResult>();
+
+        var badRequestResult = actionResult as BadRequestObjectResult;
+        badRequestResult.Value.ShouldBeOfType<ApiMessageModel>();
+
+        var apiMessageModel = badRequestResult.Value as ApiMessageModel;
+        apiMessageModel.Message.ShouldBe("Invalid data");
+
+    }
+
+
+    [Fact]
+    public void MapErrorResult_ReturnsNotFound_WhenResultIsFailure_WithObjectNotFoundError()
+    {
+        // Arrange
+        Mock<ILogger<ApiControllerBase>> mockLogger = new Mock<ILogger<ApiControllerBase>>();
+        Mock<IMapper> mockMapper = new Mock<IMapper>();
+        Mock<ApiControllerBase> mockController = new Mock<ApiControllerBase>(mockLogger.Object, mockMapper.Object);
+        mockController.CallBase = true;
+        Result result = Result.Failure(new ObjectNotFoundError("The data was nowhere we looked"));
+
+        // Act
+        var actionResult = mockController.Object.MapErrorResult<TestEntity, TestModel>(result);
+
+        // Assert
+        actionResult.ShouldBeOfType<NotFoundObjectResult>();
+
+        var notFoundResult = actionResult as NotFoundObjectResult;
+        notFoundResult.Value.ShouldBeOfType<ApiMessageModel>();
+
+        var apiMessageModel = notFoundResult.Value as ApiMessageModel;
+        apiMessageModel.Message.ShouldBe("The data was nowhere we looked");
+
+    }
+
+
+
+    [Fact]
+    public void MapErrorResult_ReturnsCreateObjectExistsConflictErrorResult_WhenResultIsFailure_WithObjectAlreadyExistsError()
+    {
+        // Arrange
+        TestEntity testEntity = new TestEntity() { Id = 1, Name = "I already exist" };
+
+        Mock<ILogger<ApiControllerBase>> mockLogger = new Mock<ILogger<ApiControllerBase>>();
+        Mock<IMapper> mockMapper = new Mock<IMapper>();
+        mockMapper.Setup(x => x.Map<TestEntity, TestModel>(testEntity)).Returns(new TestModel() { Id = 1, Name = "I already exist" });
+
+        Mock<ApiControllerBase> mockController = new Mock<ApiControllerBase>(mockLogger.Object, mockMapper.Object);
+        mockController.CallBase = true;
+        Result result = Result.Failure(new ObjectAlreadyExistsError<TestEntity>("The object already exists", testEntity));
+
+        // Act
+        var actionResult = mockController.Object.MapErrorResult<TestEntity, TestModel>(result);
+
+        // Assert
+        actionResult.ShouldBeOfType<ConflictObjectResult>();
+
+        var conflictResult = actionResult as ConflictObjectResult;
+        conflictResult.Value.ShouldBeOfType<ConcurrencyErrorModel<TestModel>>();
+
+        var concurrencyErrorModel = conflictResult.Value as ConcurrencyErrorModel<TestModel>;
+        concurrencyErrorModel.Message.ShouldBe("The object already exists");
+
+        concurrencyErrorModel.CurrentObject.ShouldBeOfType<TestModel>();
+        concurrencyErrorModel.CurrentObject.Id.ShouldBe(1);
+        concurrencyErrorModel.CurrentObject.Name.ShouldBe("I already exist");
+    }
+
+
+    [Fact]
+    public void MapErrorResult_ReturnsConcurrencyConflict_WhenResultIsFailure_WithConcurrencyError()
+    {
+        // Arrange
+        TestEntity testEntity = new TestEntity() { Id = 1, Name = "Concurrency Error" };
+
+        Mock<ILogger<ApiControllerBase>> mockLogger = new Mock<ILogger<ApiControllerBase>>();
+        Mock<IMapper> mockMapper = new Mock<IMapper>();
+        mockMapper.Setup(x => x.Map<TestEntity, TestModel>(testEntity)).Returns(new TestModel() { Id = 1, Name = "Concurrency Error" });
+
+        Mock<ApiControllerBase> mockController = new Mock<ApiControllerBase>(mockLogger.Object, mockMapper.Object);
+        mockController.CallBase = true;
+        Result result = Result.Failure(new ConcurrencyError<TestEntity>("Someone else updated the object", testEntity));
+
+        // Act
+        var actionResult = mockController.Object.MapErrorResult<TestEntity, TestModel>(result);
+
+        // Assert
+        actionResult.ShouldBeOfType<ConflictObjectResult>();
+
+        var conflictResult = actionResult as ConflictObjectResult;
+        conflictResult.Value.ShouldBeOfType<ConcurrencyErrorModel<TestModel>>();
+
+        var concurrencyErrorModel = conflictResult.Value as ConcurrencyErrorModel<TestModel>;
+        concurrencyErrorModel.Message.ShouldBe("Someone else updated the object");
+
+        concurrencyErrorModel.CurrentObject.ShouldBeOfType<TestModel>();
+        concurrencyErrorModel.CurrentObject.Id.ShouldBe(1);
+        concurrencyErrorModel.CurrentObject.Name.ShouldBe("Concurrency Error");
+    }
+
+
 }
