@@ -3,6 +3,7 @@ using Shouldly;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -180,6 +181,65 @@ public class CommonValidationsTests
     {
         // Act
         var result = Regex.IsMatch(zipCode, CommonValidations.US_ZIP_CODES);
+
+        // Assert
+        result.ShouldBeFalse();
+    }
+
+
+
+    [Theory]
+    [InlineData("https://www.github.com/")]
+    [InlineData("https://www.github.com")]
+    [InlineData("https://github.com/")]
+    [InlineData("https://github.com")]
+    public void Url_validation_PassesValidHttpsUrls(string url)
+    {
+        // Act
+        var result = Regex.IsMatch(url, CommonValidations.URL);
+
+        // Assert
+        result.ShouldBeTrue();
+    }
+
+
+    [Theory]
+    [InlineData("http://www.yahoo.com/")]
+    [InlineData("http://www.yahoo.com")]
+    [InlineData("http://yahoo.com/")]
+    [InlineData("http://yahoo.com")]
+    public void Url_validation_PassesValidHttpUrls(string url)
+    {
+        // Act
+        var result = Regex.IsMatch(url, CommonValidations.URL);
+
+        // Assert
+        result.ShouldBeTrue();
+    }
+
+
+    [Theory]
+    [InlineData("10.0.0.0")]
+    [InlineData("192.168.1.1")]
+    [InlineData("255.255.255.255")]
+    public void IpAddress_Validation_PassesValidIpAddresses(string ipAddress)
+    {
+        // Act
+        var result = Regex.IsMatch(ipAddress, CommonValidations.IP_ADDRESS);
+
+        // Assert
+        result.ShouldBeTrue();
+    }
+
+
+    [Theory]
+    [InlineData("")]
+    [InlineData("192.168.1.")]
+    [InlineData("255.255.255.255.255")]
+    public void IpAddress_Validation_FailsInvalidIpAddresses(string ipAddress)
+    {
+        // Act
+        var result = Regex.IsMatch(ipAddress, CommonValidations.IP_ADDRESS);
 
         // Assert
         result.ShouldBeFalse();
