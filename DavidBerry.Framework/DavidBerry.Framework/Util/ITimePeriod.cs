@@ -20,10 +20,21 @@ public interface ITimePeriod
 
 public static class ITimePeriodExtensions
 {
-
+    /// <summary>
+    /// Checks if this time period overlaps with another time period
+    /// </summary>
+    /// <param name="period1">The first time period</param>
+    /// <param name="period2">A TimePeriod to see if check for overlap with</param>
+    /// <returns></returns>
     public static bool Overlaps(this ITimePeriod period1, ITimePeriod period2)
     {
         return period1.StartTime < period2.EndTime && period2.StartTime < period1.EndTime;
+    }
+
+
+    public static bool Overlaps(this ITimePeriod period1, DateTime startTime, DateTime endTime)
+    {
+        return period1.StartTime < endTime && startTime < period1.EndTime;
     }
 
     public static bool Contains(this ITimePeriod period, DateTime dateTime)

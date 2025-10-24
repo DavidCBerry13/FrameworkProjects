@@ -135,6 +135,134 @@ public class ITimePeriodExtensionsTests
 
 
     [Fact]
+    public void TestOverlapsReturnsTrueWhenDateTimeValuesAreSamePeriod()
+    {
+        // Arrange
+        var period1 = new TimePeriod(DateTime.Parse("2024-10-18T11:00:00"), DateTime.Parse("2024-10-18T13:00:00"));
+        var startdate = DateTime.Parse("2024-10-18T11:00:00");
+        var endDate = DateTime.Parse("2024-10-18T13:00:00");
+
+        // Act
+        bool overlaps = period1.Overlaps(startdate, endDate); // Should be true
+
+        // Assert
+        overlaps.ShouldBeTrue();
+    }
+
+
+    [Fact]
+    public void TestOverlapsReturnsTrueWhenStartDateStartsInPeriod()
+    {
+        // Arrange
+        var period1 = new TimePeriod(DateTime.Parse("2024-10-18T11:00:00"), DateTime.Parse("2024-10-18T14:00:00"));
+        var startDate = DateTime.Parse("2024-10-18T12:00:00");
+        var endDate = DateTime.Parse("2024-10-18T16:00:00");
+
+        // Act
+        bool overlaps = period1.Overlaps(startDate, endDate); // Should be true
+
+        // Assert
+        overlaps.ShouldBeTrue();
+    }
+
+
+
+    [Fact]
+    public void TestOverlapsReturnsTrueWhenEndDateStartsInPeriod()
+    {
+        // Arrange
+        var period1 = new TimePeriod(DateTime.Parse("2024-10-18T11:00:00"), DateTime.Parse("2024-10-18T14:00:00"));
+        var startDate = DateTime.Parse("2024-10-18T09:00:00");
+        var endDate = DateTime.Parse("2024-10-18T12:00:00");
+
+        // Act
+        bool overlaps = period1.Overlaps(startDate, endDate); // Should be true
+
+        // Assert
+        overlaps.ShouldBeTrue();
+    }
+
+
+    [Fact]
+    public void TestOverlapsReturnFalseWhenStartAndEndTimeAfterTimePeriod()
+    {
+        // Arrange
+        var period1 = new TimePeriod(DateTime.Parse("2024-10-18T11:00:00"), DateTime.Parse("2024-10-18T13:00:00"));
+        var startTime = DateTime.Parse("2024-10-18T14:00:00");
+        var endTime = DateTime.Parse("2024-10-18T17:00:00");
+
+        // Act
+        bool overlaps = period1.Overlaps(startTime, endTime); // Should be true
+
+        // Assert
+        overlaps.ShouldBeFalse();
+    }
+
+
+
+    [Fact]
+    public void TestOverlapsReturnFalseWhenStartAndEndTimeBeforeTimePeriod()
+    {
+        // Arrange
+        var period1 = new TimePeriod(DateTime.Parse("2024-10-18T11:00:00"), DateTime.Parse("2024-10-18T13:00:00"));
+        var startTime = DateTime.Parse("2024-10-18T09:00:00");
+        var endTime = DateTime.Parse("2024-10-18T10:00:00");
+
+        // Act
+        bool overlaps = period1.Overlaps(startTime, endTime); // Should be true
+
+        // Assert
+        overlaps.ShouldBeFalse();
+    }
+
+
+
+    [Fact]
+    public void TestOverlapsReturnFalseWhenStartTimeAtTimePeriodEndTime()
+    {
+        // Arrange
+        var period1 = new TimePeriod(DateTime.Parse("2024-10-18T11:00:00"), DateTime.Parse("2024-10-18T13:00:00"));
+        var startTime = DateTime.Parse("2024-10-18T13:00:00");
+        var endTime = DateTime.Parse("2024-10-18T15:00:00");
+
+        // Act
+        bool overlaps = period1.Overlaps(startTime, endTime); // Should be true
+
+        // Assert
+        overlaps.ShouldBeFalse();
+    }
+
+
+    [Fact]
+    public void TestOverlapsReturnFalseWhenEndDateAtTimePeriodStartTime()
+    {
+        // Arrange
+        var period1 = new TimePeriod(DateTime.Parse("2024-10-18T11:00:00"), DateTime.Parse("2024-10-18T13:00:00"));
+        var startTime = DateTime.Parse("2024-10-18T09:00:00");
+        var endTime = DateTime.Parse("2024-10-18T11:00:00");
+
+        // Act
+        bool overlaps = period1.Overlaps(startTime, endTime); // Should be true
+
+        // Assert
+        overlaps.ShouldBeFalse();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    [Fact]
     public void TestContainsResturnsTrueWhenDateTimeIsWithinPeriod()
     {
         // Arrange
