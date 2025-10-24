@@ -115,6 +115,8 @@ namespace DavidBerry.Framework.ApiUtil.Controllers
             {
                 case InvalidDataError error:
                     return BadRequest(new ApiMessageModel() { Message = error.Message });
+                case BusinessRuleViolationError error:
+                    return UnprocessableEntity(new ApiMessageModel() { Message = error.Message });
                 case ObjectNotFoundError error:
                     return NotFound(new ApiMessageModel() { Message = error.Message });
                 case ObjectAlreadyExistsError<TEntity> error:
@@ -132,6 +134,8 @@ namespace DavidBerry.Framework.ApiUtil.Controllers
             {
                 case InvalidDataError e:
                     return BadRequest(new ApiMessageModel() { Message = e.Message });
+                case BusinessRuleViolationError error:
+                    return UnprocessableEntity(new ApiMessageModel() { Message = error.Message });
                 case ObjectNotFoundError e:
                     return NotFound(new ApiMessageModel() { Message = e.Message });
                 default:

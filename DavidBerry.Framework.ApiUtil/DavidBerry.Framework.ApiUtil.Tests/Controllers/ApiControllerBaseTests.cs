@@ -44,6 +44,30 @@ public class ApiControllerBaseTests
     }
 
 
+    [Fact]
+    public void MapErrorResult_ReturnsUnprocessableContent_WhenBusinessRuleViolationErrorInResult()
+    {
+        // Arrange
+        Mock<ILogger<ApiControllerBase>> mockLogger = new Mock<ILogger<ApiControllerBase>>();
+        Mock<IMapper> mockMapper = new Mock<IMapper>();
+        Mock<ApiControllerBase> mockController = new Mock<ApiControllerBase>(mockLogger.Object, mockMapper.Object);
+        mockController.CallBase = true;
+        Result result = Result.Failure(new BusinessRuleViolationError("That is not allowed!"));
+
+        // Act
+        var actionResult = mockController.Object.MapErrorResult(result);
+
+        // Assert
+        actionResult.ShouldBeOfType<UnprocessableEntityObjectResult>();
+
+        var badRequestResult = actionResult as UnprocessableEntityObjectResult;
+        badRequestResult.Value.ShouldBeOfType<ApiMessageModel>();
+
+        var apiMessageModel = badRequestResult.Value as ApiMessageModel;
+        apiMessageModel.Message.ShouldBe("That is not allowed!");
+    }
+
+
 
     [Fact]
     public void MapErrorResult_ReturnsObjectNotFound_WhenObjectNotFoundErrorInResult()
@@ -145,6 +169,32 @@ public class ApiControllerBaseTests
 
         var apiMessageModel = badRequestResult.Value as ApiMessageModel;
         apiMessageModel.Message.ShouldBe("Invalid data");
+
+    }
+
+
+
+    [Fact]
+    public void MapErrorResult_ReturnsUnprocessableEntity_WhenResultIsFailure_WithBusinessRuleViolationError()
+    {
+        // Arrange
+        Mock<ILogger<ApiControllerBase>> mockLogger = new Mock<ILogger<ApiControllerBase>>();
+        Mock<IMapper> mockMapper = new Mock<IMapper>();
+        Mock<ApiControllerBase> mockController = new Mock<ApiControllerBase>(mockLogger.Object, mockMapper.Object);
+        mockController.CallBase = true;
+        Result result = Result.Failure(new BusinessRuleViolationError("That is not allowed"));
+
+        // Act
+        var actionResult = mockController.Object.MapErrorResult<TestEntity, TestModel>(result);
+
+        // Assert
+        actionResult.ShouldBeOfType<UnprocessableEntityObjectResult>();
+
+        var badRequestResult = actionResult as UnprocessableEntityObjectResult;
+        badRequestResult.Value.ShouldBeOfType<ApiMessageModel>();
+
+        var apiMessageModel = badRequestResult.Value as ApiMessageModel;
+        apiMessageModel.Message.ShouldBe("That is not allowed");
 
     }
 
