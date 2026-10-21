@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.20.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\DavidBerry.Framework\DavidBerry.Framework\DavidBerry.Framework.csproj" />
+    <ProjectReference Include="..\DavidBerry.Framework.Messaging\DavidBerry.Framework.Messaging.csproj" />
+  </ItemGroup>
+
+</Project>
