@@ -1,9 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
 
+    <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
+    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
   </PropertyGroup>
 
   <ItemGroup>
@@ -53,19 +55,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="coverlet.collector" Version="10.0.1">
+    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" Version="18.12.0">
       <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.10.0" />
-    <PackageReference Include="Moq" Version="4.20.72" />
+    <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" Version="2.5.1">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Moq" Version="4.21.0" />
     <PackageReference Include="Shouldly" Version="4.3.0" />
     <PackageReference Include="UnitsNet" Version="5.75.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="4.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="xunit.v3" Version="4.0.1" />
+    <PackageReference Include="xunit.v3.mtp-v2" Version="4.0.2" />
   </ItemGroup>
 
   <ItemGroup>
