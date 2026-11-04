@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Identity" Version="1.21.0" />
+    <PackageReference Include="Azure.Storage.Queues" Version="12.28.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DavidBerry.Framework.Messaging\DavidBerry.Framework.Messaging.csproj" />
+  </ItemGroup>
+
+</Project>
