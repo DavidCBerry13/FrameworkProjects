@@ -157,43 +157,37 @@ internal class AzStorageQueueDeadLetterHandler<T> : IDeadLetterHandler<T>, IAsyn
             {
                 try
                 {
-                    // Try to deserialize as a QueueMessage wrapper first
-                    QueueMessage<T>? queueMessage = null;
+                    // Deserialize as QueueErrorMessage (the write-side envelope)
+                    var errorMessage = JsonSerializer.Deserialize<QueueErrorMessage>(message.Body.ToString());
+
+                    if (errorMessage == null)
+                    {
+                        _logger.LogWarning("Failed to deserialize error message {MessageId}: result was null", message.MessageId);
+                        continue;
+                    }
+
+                    // Create the read-side DeadLetterMessage<T>
+                    var deadLetterMessage = new DeadLetterMessage<T>
+                    {
+                        SequenceNumber = errorMessage.SequenceNumber,
+                        EnqueueTime = errorMessage.EnqueueTime,
+                        DeadLetterReason = errorMessage.DeadLetterReason,
+                        DeadLetterErrorDescription = errorMessage.DeadLetterErrorDescription,
+                        RawMessageBody = errorMessage.MessageBody
+                    };
+
+                    // Try to deserialize the raw message body as T
                     try
                     {
-                        queueMessage = JsonSerializer.Deserialize<QueueMessage<T>>(message.Body.ToString());
+                        deadLetterMessage.Body = JsonSerializer.Deserialize<T>(errorMessage.MessageBody);
                     }
                     catch
                     {
-                        // If that fails, try to deserialize directly as T
+                        // Body remains null if deserialization fails; RawMessageBody preserves the original
+                        _logger.LogDebug("Could not deserialize raw message body as {TypeName} for sequence {SequenceNumber}", typeof(T).Name, errorMessage.SequenceNumber);
                     }
 
-                    T? body = null;
-                    string? deadLetterReason = null;
-                    string? deadLetterErrorDescription = null;
-
-                    if (queueMessage != null)
-                    {
-                        body = queueMessage.Body;
-                        // Try to extract dead letter info from the message metadata if available
-                        if (queueMessage.Properties.ApplicationProperties.TryGetValue("deadLetterReason", out var reason))
-                        {
-                            deadLetterReason = reason?.ToString();
-                        }
-                        if (queueMessage.Properties.ApplicationProperties.TryGetValue("deadLetterErrorDescription", out var description))
-                        {
-                            deadLetterErrorDescription = description?.ToString();
-                        }
-                    }
-
-                    deadLetterMessages.Add(new DeadLetterMessage<T>
-                    {
-                        SequenceNumber = Convert.ToInt64(message.MessageId.GetHashCode()),
-                        EnqueueTime = message.InsertedOn ?? DateTimeOffset.UtcNow,
-                        DeadLetterReason = deadLetterReason,
-                        DeadLetterErrorDescription = deadLetterErrorDescription,
-                        Body = body
-                    });
+                    deadLetterMessages.Add(deadLetterMessage);
                 }
                 catch (JsonException ex)
                 {
@@ -204,7 +198,8 @@ internal class AzStorageQueueDeadLetterHandler<T> : IDeadLetterHandler<T>, IAsyn
                         EnqueueTime = message.InsertedOn ?? DateTimeOffset.UtcNow,
                         DeadLetterReason = "DeserializationError",
                         DeadLetterErrorDescription = ex.Message,
-                        Body = null
+                        Body = null,
+                        RawMessageBody = message.Body.ToString()
                     });
                 }
             }
@@ -233,8 +228,18 @@ internal class AzStorageQueueDeadLetterHandler<T> : IDeadLetterHandler<T>, IAsyn
             {
                 try
                 {
-                    // Send message back to the receive queue
-                    await _receiveQueueClient.SendMessageAsync(message.Body.ToString(), cancellationToken);
+                    // Deserialize the error message to extract the raw original body
+                    var errorMessage = JsonSerializer.Deserialize<QueueErrorMessage>(message.Body.ToString());
+
+                    if (errorMessage == null)
+                    {
+                        _logger.LogWarning("Failed to deserialize error message {MessageId} for resubmission", message.MessageId);
+                        failureCount++;
+                        continue;
+                    }
+
+                    // Send the raw original message body back to the receive queue
+                    await _receiveQueueClient.SendMessageAsync(errorMessage.MessageBody, cancellationToken);
 
                     // Delete from dead letter queue
                     await _deadLetterQueueClient.DeleteMessageAsync(message.MessageId, message.PopReceipt, cancellationToken);
@@ -280,8 +285,17 @@ internal class AzStorageQueueDeadLetterHandler<T> : IDeadLetterHandler<T>, IAsyn
 
             try
             {
-                // Send message back to the receive queue
-                await _receiveQueueClient.SendMessageAsync(messageToResubmit.Body.ToString(), cancellationToken);
+                // Deserialize the error message to extract the raw original body
+                var errorMessage = JsonSerializer.Deserialize<QueueErrorMessage>(messageToResubmit.Body.ToString());
+
+                if (errorMessage == null)
+                {
+                    _logger.LogError("Failed to deserialize error message {MessageId} for resubmission", messageToResubmit.MessageId);
+                    return Result.Failure(new Error($"Failed to deserialize error message"));
+                }
+
+                // Send the raw original message body back to the receive queue
+                await _receiveQueueClient.SendMessageAsync(errorMessage.MessageBody, cancellationToken);
 
                 _logger.LogInformation("Successfully resubmitted dead letter message with sequence number {SequenceNumber}", sequenceNumber);
 

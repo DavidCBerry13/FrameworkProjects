@@ -17,5 +17,8 @@ public class DeadLetterMessage<T> where T : class, new()
     public string? DeadLetterErrorDescription { get; set; }
 
     public T? Body { get; set; }
+
+    public string? RawMessageBody { get; set; }
 }
+
 
