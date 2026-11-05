@@ -173,27 +173,17 @@ internal class AzStorageQueueMessageSubscriber<T, K> : IMessageSubscriber<T, K>,
     {
         try
         {
-            // Deserialize the original message body
-            T? messageBody = null;
-            try
-            {
-                messageBody = JsonSerializer.Deserialize<T>(message.Body.ToString());
-            }
-            catch
-            {
-                // If deserialization fails, continue with null body
-            }
-
-            var deadLetterMessage = new DeadLetterMessage<T>
+            // Create an error message with the raw message body preserved
+            var errorMessage = new QueueErrorMessage
             {
                 SequenceNumber = Convert.ToInt64(message.MessageId.GetHashCode()),
                 EnqueueTime = message.InsertedOn ?? DateTimeOffset.UtcNow,
                 DeadLetterReason = deadLetterReason,
                 DeadLetterErrorDescription = deadLetterErrorDescription,
-                Body = messageBody
+                MessageBody = message.Body.ToString()  // Always preserve the raw message
             };
 
-            await _deadLetterQueueClient.SendMessageAsync(JsonSerializer.Serialize(deadLetterMessage));
+            await _deadLetterQueueClient.SendMessageAsync(JsonSerializer.Serialize(errorMessage));
             _logger.LogInformation("Message {MessageId} moved to dead letter queue. Reason: {Reason}", message.MessageId, deadLetterReason);
         }
         catch (Exception ex)
