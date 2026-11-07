@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DavidBerry.Framework.Messag
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DavidBerry.Framework.Messaging.AzStorageQueues", "DavidBerry.Framework.Messaging\DavidBerry.Framework.Messaging.AzStorageQueues\DavidBerry.Framework.Messaging.AzStorageQueues.csproj", "{E7168725-FBA9-4875-83FC-47A892370039}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DavidBerry.Framework.Messaging.AzServiceBus.Tests", "DavidBerry.Framework.Messaging\DavidBerry.Framework.Messaging.AzServiceBus.Tests\DavidBerry.Framework.Messaging.AzServiceBus.Tests.csproj", "{00215B62-09A1-9B16-2F21-E0816136E7B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{E7168725-FBA9-4875-83FC-47A892370039}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7168725-FBA9-4875-83FC-47A892370039}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7168725-FBA9-4875-83FC-47A892370039}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00215B62-09A1-9B16-2F21-E0816136E7B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00215B62-09A1-9B16-2F21-E0816136E7B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00215B62-09A1-9B16-2F21-E0816136E7B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00215B62-09A1-9B16-2F21-E0816136E7B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,6 +91,7 @@ Global
 		{2FC60766-F433-4402-B279-FD1876D69339} = {D55C289C-A77D-461A-BC5C-69D40D214DD9}
 		{4161E0F1-5109-4BC1-8D2E-5ACC5ED21FC0} = {D55C289C-A77D-461A-BC5C-69D40D214DD9}
 		{E7168725-FBA9-4875-83FC-47A892370039} = {D55C289C-A77D-461A-BC5C-69D40D214DD9}
+		{00215B62-09A1-9B16-2F21-E0816136E7B0} = {D55C289C-A77D-461A-BC5C-69D40D214DD9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5FBA22ED-84F9-405D-87ED-0BE10CA2569A}
