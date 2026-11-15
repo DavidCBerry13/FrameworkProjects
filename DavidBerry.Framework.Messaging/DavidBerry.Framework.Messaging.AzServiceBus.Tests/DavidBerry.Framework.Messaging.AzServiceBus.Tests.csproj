@@ -2,15 +2,30 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
     <OutputType>Exe</OutputType>
     <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+    <DisableFCC>true</DisableFCC>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="dotCover.Output\**" />
+    <EmbeddedResource Remove="dotCover.Output\**" />
+    <None Remove="dotCover.Output\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="dotCover.Output.html" />
+    <None Remove="EmbeddedResources\dotnet-logo.png" />
+    <None Remove="EmbeddedResources\ExampleFile.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" Version="18.12.0">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" Version="2.5.1">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Shouldly" Version="4.3.0" />
@@ -18,11 +33,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DavidBerry.Framework.Messaging.AzServiceBus\DavidBerry.Framework.Messaging.AzServiceBus.csproj" />
+    <DotNetCliToolReference Include="JetBrains.dotCover.DotNetCliTool" Version="2019.2.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Using Include="Xunit" />
+    <ProjectReference Include="..\DavidBerry.Framework.Messaging.AzServiceBus\DavidBerry.Framework.Messaging.AzServiceBus.csproj" />
   </ItemGroup>
+
 
 </Project>
